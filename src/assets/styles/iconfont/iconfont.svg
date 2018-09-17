@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<!--
+2013-9-30: Created.
+-->
+<svg>
+<metadata>
+Created by iconfont
+</metadata>
+<defs>
+
+<font id="iconfont" horiz-adv-x="1024" >
+  <font-face
+    font-family="iconfont"
+    font-weight="500"
+    font-stretch="normal"
+    units-per-em="1024"
+    ascent="896"
+    descent="-128"
+  />
+    <missing-glyph />
+    
+    <glyph glyph-name="dingbu" unicode="&#59054;" d="M846.848 840.118857l569.051429-674.523428c37.156571-44.324571 52.809143-104.740571 45.056-163.108572a121.417143 121.417143 0 0 0-119.369143-106.788571H121.417143a121.417143 121.417143 0 0 0-119.369143 106.788571c-7.753143 58.368 7.899429 118.784 45.056 163.108572L618.057143 840.118857c62.464 74.605714 164.278857 74.605714 228.790857 0z"  horiz-adv-x="1462" />
+
+    
+
+
+  </font>
+</defs></svg>
