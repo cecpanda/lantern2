@@ -88,11 +88,7 @@ export const followStatus = (userFrom, userTo) => {
 
 // 获取指定用户资料
 export const getUser = username => {
-  return axios.get(`${host}/account/user/${username}`, {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+  return axios.get(`${host}/account/user/${username}/`)
 }
 
 // 查询所有组

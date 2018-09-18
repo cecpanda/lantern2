@@ -180,7 +180,7 @@ export default {
       }
     }
   },
-  created () {
+  mounted () {
     this.getUserProfile(this.username)
   },
   filters: {
