@@ -281,3 +281,12 @@ export const recoverQcAudit = (params) => {
 export const recoverProductAudit = (params) => {
   return axios.post(`${host}/tft/order/recover-audit/product/`, params)
 }
+
+// get summary
+export const getSummary = (which) => {
+  return axios.get(`${host}/tft/order/query/summary/`, {
+    params: {
+      which: which
+    }
+  })
+}

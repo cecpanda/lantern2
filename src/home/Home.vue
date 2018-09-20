@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main>
-      Maindfsd
+      Main
     </el-main>
     <el-aside width="200px">
       aside

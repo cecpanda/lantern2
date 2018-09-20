@@ -1,90 +1,114 @@
 <template>
   <div>
-    <v-chart :options="polar"/>
-    <v-chart :options='bar'/>
+    <el-table
+      :data='tableData'
+      border
+      header-row-class-name='table-header'
+    >
+      <el-table-column prop="group" label="责任工程" width="100"></el-table-column>
+      <el-table-column prop="sum" label="停机单数" width="100"></el-table-column>
+      <el-table-column prop="audits" label="停机审核中" width="100"></el-table-column>
+      <el-table-column prop="rejects" label="停机拒签" width="100"></el-table-column>
+      <el-table-column prop="closed" label="停机完成" width="100"></el-table-column>
+      <el-table-column prop="finished" label="已复机" width="100"></el-table-column>
+      <el-table-column prop="others" label="其他" width="100"></el-table-column>
+    </el-table>
+    <br><br><br><br>
+    <v-chart :init-options='initOptions' :options='bar' :auto-resize='true'/>
+    <br><br><br><br><br><br><br><br><br><br><br>
   </div>
 </template>
 
 <script>
+import { getSummary } from '@/api/tft.js'
 import ECharts from 'vue-echarts/components/ECharts.vue'
-import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/bar'
-import 'echarts/lib/component/polar'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/title'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/toolbox'
 import 'echarts/lib/component/legend'
 
 export default {
   name: 'Summary',
   data () {
-    let data = []
-
-    for (let i = 0; i <= 360; i++) {
-      let t = i / 180 * Math.PI
-      let r = Math.sin(2 * t) * Math.cos(2 * t)
-      data.push([r, i])
-    }
-
     return {
-      polar: {
+      groups: [],
+      tableData: [],
+      chartData: [],
+      initOptions: {
+        width: 800,
+        height: 600
+      }
+    }
+  },
+  computed: {
+    bar () {
+      return {
         title: {
-          text: '极坐标双数值轴'
-        },
-        legend: {
-          show: true,
-          data: ['line']
-        },
-        polar: {
-          center: ['50%', '54%']
-        },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross'
-          }
-        },
-        angleAxis: {
-          type: 'value',
-          startAngle: 0
-        },
-        radiusAxis: {
-          min: 0
-        },
-        series: [
-          {
-            coordinateSystem: 'polar',
-            name: 'line',
-            type: 'line',
-            showSymbol: false,
-            data: data
-          }
-        ],
-        animationDuration: 2000
-      },
-      bar: {
-        title: {
-          text: 'ECharts 入门示例'
+          text: '责任工程停机单状况'
         },
         tooltip: {},
+        toolbox: {
+          feature: {
+            saveAsImage: {},
+            dataView: {},
+            dataZoom: {},
+            restore: {}
+          }
+        },
         legend: {
-          data: ['销量']
+          top: 30,
+          data: ['停机单数', '停机审核中', '停机拒签', '停机完成', '已复机', '其他']
         },
         xAxis: {
-          data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+          type: 'value'
         },
-        yAxis: {},
-        series: [{
-          name: '销量',
-          type: 'bar',
-          data: [5, 20, 36, 10, 10, 20]
-        }]
+        yAxis: {
+          type: 'category',
+          data: this.groups
+        },
+        series: this.chartData
       }
+    }
+  },
+  methods: {
+    getSummary () {
+      // getSummary('group')
+      //   .then((res) => {
+      //     this.groups = res.data.groups
+      //     this.groupData = res.data.data
+      //   })
+      //   .catch((err) => {
+      //     console.log(err)
+      //   })
+      getSummary('charge_group')
+        .then((res) => {
+          this.groups = res.data.groups
+          this.tableData = res.data.table
+          this.chartData = res.data.chart
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
   components: {
     vChart: ECharts
+  },
+  mounted () {
+    this.getSummary()
   }
 }
 </script>
 
-<style lang='stylus' scoped>
-
+<style lang='stylus'>
+.table-header
+  th
+    font-size 1.1em
+    background #CFD5DA
+.el-table__row:nth-child(2n)
+  background-color #CFE0F1
+.el-table__row:nth-child(2n+1)
+  background-color #fff
 </style>
