@@ -62,12 +62,9 @@ export default {
           data: ['停机单数', '停机审核中', '停机拒签', '停机完成', '已复机', '其他']
         },
         xAxis: {
-          type: 'value'
-        },
-        yAxis: {
-          type: 'category',
           data: this.groups
         },
+        yAxis: {},
         series: this.chartData
       }
     }
