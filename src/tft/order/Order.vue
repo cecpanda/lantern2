@@ -41,10 +41,10 @@
               <span>报表查询</span>
             </router-link>
           </template>
-          <el-menu-item index="/tft/order/mystart">我的停机单</el-menu-item>
-          <el-menu-item index="/tft/order/myrecover">我的复机单</el-menu-item>
-          <el-menu-item index="/tft/order/mystartaudit">停机审核单</el-menu-item>
-          <el-menu-item index="/tft/order/myrecoveraudit">复机审核单</el-menu-item>
+          <el-menu-item index="/tft/order/mystart">我的停机</el-menu-item>
+          <el-menu-item index="/tft/order/myrecover">我的复机</el-menu-item>
+          <el-menu-item index="/tft/order/mystartaudit">停机审核</el-menu-item>
+          <el-menu-item index="/tft/order/myrecoveraudit">复机审核</el-menu-item>
         </el-submenu>
 
         <el-menu-item index="/tft/order">

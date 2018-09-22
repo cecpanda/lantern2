@@ -32,9 +32,9 @@ export default {
   height 50px
   line-height 50px
   text-align center
-  margin-top 25px
+  margin-top 3px
   // border 1px solid green
-  background-color #CFE0F1
+  background-color #AAB5C1
 // .el-main
 //   background-color: #E9EEF3
 //   color: #333

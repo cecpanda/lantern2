@@ -76,7 +76,13 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column prop="status.desc" label="状态" min-width='180'></el-table-column>
+      <el-table-column
+        prop="status.desc"
+        label="状态"
+        min-width='180'
+        :filters='statusFilters'
+        :filter-method='filterStatus'
+      ></el-table-column>
       <el-table-column prop="user.username" label="工号" min-width='80'></el-table-column>
       <el-table-column prop="user.realname" label="真名" min-width='80'></el-table-column>
       <!-- <el-table-column label="开单人" min-width='100'>
@@ -117,7 +123,10 @@
       <el-table-column prop="eq" label="停机设备" min-width='100' :show-overflow-tooltip='true'></el-table-column>
       <el-table-column prop="kind" label="停机机种" min-width='100' :show-overflow-tooltip='true'></el-table-column>
       <el-table-column prop="step" label="停机站点" min-width='100' :show-overflow-tooltip='true'></el-table-column>
-      <el-table-column label="绝对不良" min-width='100'>
+      <el-table-column
+        label="绝对不良"
+        min-width='100'
+      >
         <template slot-scope="scope">
           <span v-if='scope.row.defect_type'>是</span>
           <span v-else-if='scope.row.defect_type === false'>否</span>
@@ -271,6 +280,7 @@ export default {
       values.forEach((value) => {
         filters.push({text: value, value: value})
       })
+      console.log(filters)
       return filters
     },
     chargeGroupFilters () {
@@ -278,6 +288,17 @@ export default {
       let values = new Set()
       this.orders.forEach((order) => {
         values.add(order.charge_group.name)
+      })
+      values.forEach((value) => {
+        filters.push({text: value, value: value})
+      })
+      return filters
+    },
+    statusFilters () {
+      let filters = []
+      let values = new Set()
+      this.orders.forEach((order) => {
+        values.add(order.status.desc)
       })
       values.forEach((value) => {
         filters.push({text: value, value: value})
@@ -303,7 +324,7 @@ export default {
         customClass: 'search-msg',
         dangerouslyUseHTMLString: true,
         message: `<li>全部忽略大小写</li>
-                  <li>所有：包括编号、工号、真名</li>
+                  <li>所有：包括编号、工号、真名、修改人、发现站点、停机设备、停机机种、停机站点、停机原因、通知生产人员、通知生产人员、通知制程人员、异常描述、复机条件</li>
                   <li>表格头部：当前表格中的当前页的数据</li>
                   <li>其他: 搜索出的内容不再分页 - 为了表头过滤</li>
                   `,
@@ -450,8 +471,11 @@ export default {
     filterChargeGroup (value, row, column) {
       return row.charge_group.name === value
     },
+    filterStatus (value, row, column) {
+      return row.status.desc === value
+    },
     filterChange (filters) {
-      console.log('change')
+      // console.log('change')
       // filters = {group: ['cvd', 'pvd']}
       this.filterFlag = true
       for (let key of (Object.keys(filters))) {
