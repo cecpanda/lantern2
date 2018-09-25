@@ -78,8 +78,8 @@ export default {
       defaultActive: '',
       activeMenu: '',
       group: {},
-      start: null,
-      recover: null
+      start: undefined,
+      recover: undefined
     }
   },
   computed: {

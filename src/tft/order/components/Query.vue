@@ -53,7 +53,9 @@
         <i class="el-icon-time"></i> 结束时间: {{ this.showCreatedBefore | formatDate }}
       </el-col>
     </el-row>
+    <!-- <el-button @click='exportExcel'>exportExcel</el-button> -->
     <el-table
+      ref='orderTable'
       :data="orders"
       style="width: 100%"
       border
@@ -64,7 +66,11 @@
       @cell-mouse-leave='cellMouseLeave'
       @sort-change='sortChange'
       @filter-change='filterChange'
+      tooltip-effect="light"
+      @selection-change="handleSelectionChange"
     >
+      <el-table-column type="selection" width="50"></el-table-column>
+      <!-- <el-table-column type="index" width="50"></el-table-column> -->
       <el-table-column label="编号" min-width='100'>
         <template slot-scope="scope">
           <router-link
@@ -83,11 +89,15 @@
         :filters='statusFilters'
         :filter-method='filterStatus'
       ></el-table-column>
-      <el-table-column prop="user.username" label="工号" min-width='80'></el-table-column>
-      <el-table-column prop="user.realname" label="真名" min-width='80'></el-table-column>
-      <!-- <el-table-column label="开单人" min-width='100'>
+      <el-table-column prop="user.username" label="工号" min-width='80'>
         <template slot-scope="scope">
-          {{ scope.row.user.username }} {{ scope.row.user.realname }}
+          <UserPopover :username='scope.row.user.username'></UserPopover>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column prop="user.realname" label="真名" min-width='80'></el-table-column>
+      <el-table-column label="开单人" min-width='100'>
+        <template slot-scope="scope">
+          <UserPopover :username='scope.row.user.username'></UserPopover>
         </template>
       </el-table-column> -->
       <el-table-column
@@ -135,6 +145,16 @@
       </el-table-column>
       <el-table-column prop="remarks[0].content" label="最新批注" min-width='100'></el-table-column>
     </el-table>
+
+    <el-row class='toolbox'>
+      <el-button type="primary" plain @click="toggleSelection(['toggle'])">切换选择</el-button>
+      <el-button type="primary" plain @click="toggleSelection()">取消选择</el-button>
+      <el-button type="success">图表统计</el-button>
+      <el-button type="success">导出csv</el-button>
+      <el-button type="success">导出excel</el-button>
+      <small>注意，功能按钮仅针对当前页！</small>
+    </el-row>
+
     <el-pagination
       background
       @current-change="handleCurrentChange"
@@ -149,9 +169,12 @@
 </template>
 
 <script>
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
 import { formatDate } from '@/common/js/date.js'
 import { getOrders } from '@/api/tft'
 import BackTop from '@/common/components/BackTop'
+import UserPopover from '@/user/components/UserPopover'
 
 export default {
   name: 'Query',
@@ -215,7 +238,8 @@ export default {
       },
       created: '',
       showCreatedAfter: '',
-      showCreatedBefore: ''
+      showCreatedBefore: '',
+      selectId: []
     }
   },
   computed: {
@@ -280,7 +304,6 @@ export default {
       values.forEach((value) => {
         filters.push({text: value, value: value})
       })
-      console.log(filters)
       return filters
     },
     chargeGroupFilters () {
@@ -487,10 +510,48 @@ export default {
       // this.filters = {group: {'cvd', 'pvd'}, charge_group: {'cvd', 'pvd'}}
       // 同一属性对应多个值的过滤 API
       // console.log(this.filters)
+    },
+    toggleSelection (rows) {
+      if (rows) {
+        // 选择传入的行
+        // rows.forEach(row => {
+        //   this.$refs.orderTable.toggleRowSelection(row)
+        // })
+        // 选择当前 orders 中所有
+        // this.orders.forEach(row => {
+        //   this.$refs.orderTable.toggleRowSelection(row)
+        // })
+        this.$refs.orderTable.toggleAllSelection()
+      } else {
+        this.$refs.orderTable.clearSelection()
+      }
+    },
+    handleSelectionChange (val) {
+      let ids = []
+      val.forEach(row => {
+        ids.push(row.id)
+      })
+      this.selectId = ids
+      console.log(this.selectId)
+    },
+    exportExcel () {
+      /* generate workbook object from table */
+      var wb = XLSX.utils.table_to_book(document.querySelector('.el-table__body'))
+      /* get binary string as output */
+      var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
+      try {
+        FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'sheetjs.xlsx')
+      } catch (e) {
+        if (typeof console !== 'undefined') {
+          console.log(e, wbout)
+        }
+      }
+      return wbout
     }
   },
   components: {
-    BackTop
+    BackTop,
+    UserPopover
   },
   filters: {
     formatDate (time) {
@@ -518,6 +579,7 @@ export default {
   th
     font-size 1.1em
     background #CFD5DA
+    text-align center
 .id-href
   text-decoration none
   color #22558B
@@ -559,6 +621,10 @@ export default {
 .status8:hover
 .status9:hover
   font-weight bold
+.el-checkbox__inner
+  border 1px dashed #8B8C8E
+.toolbox
+  margin 10px 0 20px 0
 .el-pagination
   margin 20px 0
 </style>

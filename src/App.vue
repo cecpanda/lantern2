@@ -29,12 +29,13 @@ export default {
   position relativce
   margin-bottom 20px
 .el-footer
-  height 50px
-  line-height 50px
+  height 60px
+  line-height 60px
   text-align center
-  margin-top 3px
+  font-size 15px
+  // margin-top 3px
   // border 1px solid green
-  background-color #AAB5C1
+  // background-color #A9AEA6
 // .el-main
 //   background-color: #E9EEF3
 //   color: #333
