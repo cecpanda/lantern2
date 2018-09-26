@@ -147,10 +147,10 @@
     </el-table>
 
     <el-row class='toolbox'>
-      <el-button type="primary" plain @click="toggleSelection(['toggle'])">切换选择</el-button>
+      <el-button type="primary" plain @click="toggleSelection(['toggle'])">全部选择</el-button>
       <el-button type="primary" plain @click="toggleSelection()">取消选择</el-button>
       <el-button type="success">图表统计</el-button>
-      <el-button type="success">导出csv</el-button>
+      <el-button type="success" @click='exporter("csv")'>导出csv</el-button>
       <el-button type="success">导出excel</el-button>
       <small>注意，功能按钮仅针对当前页！</small>
     </el-row>
@@ -172,7 +172,7 @@
 import FileSaver from 'file-saver'
 import XLSX from 'xlsx'
 import { formatDate } from '@/common/js/date.js'
-import { getOrders } from '@/api/tft'
+import { getOrders, exporter } from '@/api/tft'
 import BackTop from '@/common/components/BackTop'
 import UserPopover from '@/user/components/UserPopover'
 
@@ -532,7 +532,18 @@ export default {
         ids.push(row.id)
       })
       this.selectId = ids
-      console.log(this.selectId)
+    },
+    exporter (format) {
+      exporter({ids: this.selectId, format: format})
+        .then((res) => {
+          // let blob = new Blob([res.data], {type: 'text/plain;charset=utf-8'})
+          // FileSaver.saveAs(blob, 'orders.csv')
+          // 注意是否被浏览器拦截
+          window.open(res.data.url, '_blank')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     exportExcel () {
       /* generate workbook object from table */
