@@ -29,9 +29,9 @@ export default {
 <style lang='stylus' scoped>
 .el-main
   height 650px
-  background #B0BECD url('../assets/bg.jpg')
-  background-size 100% 100%
-  opacity 0.5
+  // background #B0BECD url('../assets/bg.jpg')
+  // background-size 100% 100%
+  // opacity 0.5
   // .top
   //   position absolute
   //   top 70px

@@ -15,8 +15,29 @@ import HomeHeader from './home/Header'
 
 export default {
   name: 'Home',
+  // data () {
+  //   return {
+  //     lasttime: new Date.getTime()
+  //   }
+  // }
   components: {
     HomeHeader
+  },
+  methods: {
+    beforeunloadHandler () {
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+    }
+  },
+  mounted () {
+    window.addEventListener('beforeunload', this.beforeunloadHandler)
+    // window.addEventListener('mousemove', this.mousemovedHandler)
+    // let _this = this
+    // this.timer = setInterval(() => {
+    // }, 1000)
+  },
+  destroyed () {
+    window.removeEventListener('beforeunload', this.beforeunloadHandler)
   }
 }
 </script>

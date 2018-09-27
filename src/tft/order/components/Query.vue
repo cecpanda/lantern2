@@ -149,7 +149,8 @@
     <el-row class='toolbox'>
       <el-button type="primary" plain @click="toggleSelection(['toggle'])">全部选择</el-button>
       <el-button type="primary" plain @click="toggleSelection()">取消选择</el-button>
-      <el-button type="success">图表统计</el-button>
+      <!-- <el-button type="success">图表统计</el-button> -->
+      <QueryChart :ids='selectId'></QueryChart>
       <el-button type="success" @click='exporter("csv")'>导出csv</el-button>
       <el-button type="success">导出excel</el-button>
       <small>注意，功能按钮仅针对当前页！</small>
@@ -175,6 +176,7 @@ import { formatDate } from '@/common/js/date.js'
 import { getOrders, exporter } from '@/api/tft'
 import BackTop from '@/common/components/BackTop'
 import UserPopover from '@/user/components/UserPopover'
+import QueryChart from './QueryChart'
 
 export default {
   name: 'Query',
@@ -562,7 +564,8 @@ export default {
   },
   components: {
     BackTop,
-    UserPopover
+    UserPopover,
+    QueryChart
   },
   filters: {
     formatDate (time) {

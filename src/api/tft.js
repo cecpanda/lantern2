@@ -290,6 +290,15 @@ export const getSummary = (which) => {
   })
 }
 
+// export files as csv or xlsx
 export const exporter = (params) => {
   return axios.post(`${host}/tft/order/query/export/`, params)
+}
+
+// draw chart
+export const drawChart = (ids) => {
+  return axios.post(`${host}/tft/order/query/export/`, {
+    ids: ids,
+    format: 'chart'
+  })
 }
