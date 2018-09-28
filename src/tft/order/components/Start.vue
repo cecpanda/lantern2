@@ -193,8 +193,14 @@
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" :offset='16'>
           <el-form-item>
             <el-button type='warning' @click="resetForm('form')">重置</el-button>
-            <el-button type="primary" @click="submitForm('form')">
+            <el-button type="primary" @click="submitForm('form')" @dblclick.native='testdbClick'>
               立即创建
+            </el-button>
+            <el-button type="primary"
+              @click.stop.prevent='testClick'
+              @dblclick.native.stop.prevent='testdbClick'
+            >
+              test
             </el-button>
           </el-form-item>
         </el-col>
@@ -381,6 +387,12 @@ export default {
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+    },
+    testClick () {
+      console.log('click')
+    },
+    testdbClick () {
+      console.log('dbclick')
     }
   },
   filters: {

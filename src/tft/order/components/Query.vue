@@ -150,10 +150,13 @@
       <el-button type="primary" plain @click="toggleSelection(['toggle'])">全部选择</el-button>
       <el-button type="primary" plain @click="toggleSelection()">取消选择</el-button>
       <!-- <el-button type="success">图表统计</el-button> -->
-      <QueryChart :ids='selectId'></QueryChart>
+      <QueryChart :selectId='selectId'></QueryChart>
       <el-button type="success" @click='exporter("csv")'>导出csv</el-button>
       <el-button type="success">导出excel</el-button>
-      <small>注意，功能按钮仅针对当前页！</small>
+      <p class='button-tip'>
+        注意，换页后之前的选择项失效！ <br>
+        如果 csv 乱码：数据>自文本>导入>utf-8>下一步>逗号
+      </p>
     </el-row>
 
     <el-pagination
@@ -641,4 +644,7 @@ export default {
   margin 10px 0 20px 0
 .el-pagination
   margin 20px 0
+.button-tip
+  font-size 18px
+  text-align right
 </style>

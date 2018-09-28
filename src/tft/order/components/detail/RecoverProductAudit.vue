@@ -7,7 +7,7 @@
     </span> -->
     <el-button type="success" size='mini' @click='visible = true'>点击这里</el-button>
     <el-dialog title="复机审核 - 生产" :visible.sync="visible">
-      <div>准奏</div>
+      <h3>同意复机</h3>
       <div slot="footer" class="dialog-footer">
         <el-button @click="visible = false">取 消</el-button>
         <el-button type="primary" @click="add">确 定</el-button>

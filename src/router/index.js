@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import store from '@/store/index'
 import Router from 'vue-router'
-import Home from '@/home/Home'
+// import Home from '@/home/Home'
 import Login from '@/home/Login'
 import User from '@/user/User'
 import Action from '@/user/components/Action'
@@ -32,7 +32,8 @@ const router = new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      // component: Home
+      redirect: '/tft/order'
     }, {
       path: '/login',
       name: 'Login',

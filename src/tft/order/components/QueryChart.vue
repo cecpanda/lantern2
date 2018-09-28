@@ -1,7 +1,12 @@
 <template>
   <div class='query-chart'>
     <el-button type="success" @click="click">图表统计</el-button>
-    <el-dialog title="责任工程图表统计" :visible.sync="visible" width='80%'>
+    <el-dialog
+      title="责任工程图表统计"
+      :visible.sync="visible"
+      width='80%'
+      :before-close="handleClose"
+    >
       <el-table
         :data='tableData'
         border
@@ -36,7 +41,7 @@ import { drawChart } from '@/api/tft'
 
 export default {
   props: {
-    ids: {
+    selectId: {
       required: true,
       type: Array
     }
@@ -111,8 +116,8 @@ export default {
     }
   },
   methods: {
-    getSummary () {
-      drawChart(this.ids)
+    getSummary (ids) {
+      drawChart(ids)
         .then((res) => {
           this.groups = res.data.groups
           this.tableData = res.data.table
@@ -125,7 +130,14 @@ export default {
     },
     click () {
       this.visible = true
-      this.getSummary()
+      this.getSummary(this.selectId)
+    },
+    handleClose (done) {
+      this.groups = []
+      this.tableData = []
+      this.barData = []
+      this.pieData = []
+      done()
     }
   },
   components: {
@@ -140,12 +152,12 @@ export default {
 <style lang='stylus' scoped>
 .query-chart
   display inline
-.table-header
-  th
-    font-size 1.1em
-    background #CFD5DA
-.el-table__row:nth-child(2n)
-  background-color #CFE0F1
-.el-table__row:nth-child(2n+1)
-  background-color #fff
+// .table-header
+//   th
+//     font-size 1.1em
+//     background #CFD5DA
+// .el-table__row:nth-child(2n)
+//   background-color #CFE0F1
+// .el-table__row:nth-child(2n+1)
+//   background-color #fff
 </style>

@@ -15,11 +15,11 @@ import HomeHeader from './home/Header'
 
 export default {
   name: 'Home',
-  // data () {
-  //   return {
-  //     lasttime: new Date.getTime()
-  //   }
-  // }
+  data () {
+    return {
+      lasttime: new Date().getTime()
+    }
+  },
   components: {
     HomeHeader
   },
@@ -27,17 +27,33 @@ export default {
     beforeunloadHandler () {
       localStorage.removeItem('token')
       localStorage.removeItem('username')
+    },
+    mousemoveHandler () {
+      this.lasttime = new Date().getTime()
     }
   },
   mounted () {
-    window.addEventListener('beforeunload', this.beforeunloadHandler)
-    // window.addEventListener('mousemove', this.mousemovedHandler)
-    // let _this = this
-    // this.timer = setInterval(() => {
-    // }, 1000)
+    // 刷新也会chufa此事件
+    // window.addEventListener('beforeunload', this.beforeunloadHandler)
+    window.addEventListener('mousemove', this.mousemoveHandler)
+    let _this = this
+    this.timer = setInterval(() => {
+      let current = new Date().getTime()
+      if (current - _this.lasttime > 1800000) {
+        // console.log('logout')
+        localStorage.removeItem('token')
+        localStorage.removeItem('username')
+        // 记得加上啊，更新全局状态
+        this.$store.commit('setInfo')
+        this.$router.push({name: 'Home'})
+      }
+    }, 30000)
   },
   destroyed () {
-    window.removeEventListener('beforeunload', this.beforeunloadHandler)
+    // window.removeEventListener('beforeunload', this.beforeunloadHandler)
+    if (this.timer) {
+      clearInterval(this.timer) // 在vue实例销毁钱，清除我们的定时器
+    }
   }
 }
 </script>

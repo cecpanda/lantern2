@@ -7,12 +7,15 @@
       active-text-color="#ffd04b"
       :router='true'
     >
-      <el-menu-item index="/">首页</el-menu-item>
-      <el-submenu index="2">
+      <!-- <el-menu-item index="/">首页</el-menu-item> -->
+      <!-- <el-submenu index="2">
         <template slot="title">TFT</template>
         <el-menu-item index="/tft/order">停机单</el-menu-item>
-      </el-submenu>
-      <el-submenu index="3">
+      </el-submenu> -->
+      <el-menu-item index="/tft/order">
+        <span class='title'>阵列停机管理系统</span>
+      </el-menu-item>
+      <!-- <el-submenu index="3">
         <template slot="title">LCD</template>
         <el-menu-item index="3-1">1</el-menu-item>
         <el-menu-item index="3-2">2</el-menu-item>
@@ -23,7 +26,7 @@
           <el-menu-item index="3-3-3">选项3</el-menu-item>
         </el-submenu>
       </el-submenu>
-      <el-menu-item index="4">SL</el-menu-item>
+      <el-menu-item index="4">SL</el-menu-item> -->
       <!-- <el-submenu index="/widget">
         <template slot="title">小工具</template>
         <el-menu-item index="/widget/clock">时钟</el-menu-item>
@@ -101,6 +104,9 @@ export default {
 </script>
 
 <style lang='stylus' scoped>
+.title
+  font-size 35px
+  color #DAA520
 .login
   position absolute
   right 20px

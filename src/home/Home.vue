@@ -2,7 +2,7 @@
   <el-main>
     <!-- <img class='top' src="../assets/top.jpg" alt="top">
     <img class='logo' src="../assets/logo.png" alt="logo"> -->
-    <h1>停机管理系统</h1>
+    <h1>阵列停机管理系统</h1>
   </el-main>
   <!-- <el-container>
     <el-main>
