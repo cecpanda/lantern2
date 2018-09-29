@@ -193,12 +193,12 @@
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" :offset='16'>
           <el-form-item>
             <el-button type='warning' @click="resetForm('form')">重置</el-button>
-            <el-button type="primary" @click="submitForm('form')" @dblclick.native='testdbClick'>
+            <el-button type="primary" @click="submitForm('form')" :disabled='disabled'>
               立即创建
             </el-button>
             <el-button type="primary"
-              @click.stop.prevent='testClick'
-              @dblclick.native.stop.prevent='testdbClick'
+              @click.stop='testClick'
+              @dblclick.native='testdbClick'
             >
               test
             </el-button>
@@ -220,6 +220,7 @@ export default {
   name: 'StartOrder',
   data () {
     return {
+      disabled: false,
       user: {
         groups: []
       },
@@ -361,6 +362,10 @@ export default {
     upload (item) {
     },
     submitForm (formName) {
+      this.disabled = true
+      setTimeout(() => {
+        this.disabled = false
+      }, 600)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           startOrder(this.order)
@@ -389,7 +394,9 @@ export default {
       this.$refs[formName].resetFields()
     },
     testClick () {
-      console.log('click')
+      setTimeout(() => {
+        console.log('click')
+      }, 300)
     },
     testdbClick () {
       console.log('dbclick')
