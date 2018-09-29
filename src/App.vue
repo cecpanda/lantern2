@@ -39,7 +39,7 @@ export default {
     let _this = this
     this.timer = setInterval(() => {
       let current = new Date().getTime()
-      if (current - _this.lasttime > 1800000) {
+      if (current - _this.lasttime > 600000) {
         // console.log('logout')
         localStorage.removeItem('token')
         localStorage.removeItem('username')
@@ -47,7 +47,7 @@ export default {
         this.$store.commit('setInfo')
         this.$router.push({name: 'Home'})
       }
-    }, 30000)
+    }, 180000)
   },
   destroyed () {
     // window.removeEventListener('beforeunload', this.beforeunloadHandler)
