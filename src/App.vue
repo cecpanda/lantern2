@@ -25,32 +25,38 @@ export default {
   },
   methods: {
     beforeunloadHandler () {
-      localStorage.removeItem('token')
-      localStorage.removeItem('username')
+      // 区分关闭还是刷新
+      // 鼠标相对于用户屏幕的水平位置 - 窗口左上角相对于屏幕左上角的水平位置 = 鼠标在当前窗口上的水平位置
+      // let n = window.event.screenX - window.screenLeft
+      // // 鼠标在当前窗口内时，n<m，b为false；鼠标在当前窗口外时，n>m，b为true。20这个值是指关闭按钮的宽度
+      // let b = n > document.documentElement.scrollWidth - 20
+      // // if (b && window.event.clientY < 0 || window.event.altKey || window.event.ctrlKey) {
+      //   console.log('close')
+      // } else if (window.event.clientY > document.body.clientHeight || window.event.altKey) {
+      //   console.log('刷新')
+      // }
     },
     mousemoveHandler () {
       this.lasttime = new Date().getTime()
     }
   },
   mounted () {
-    // 刷新也会chufa此事件
     // window.addEventListener('beforeunload', this.beforeunloadHandler)
     window.addEventListener('mousemove', this.mousemoveHandler)
     let _this = this
     this.timer = setInterval(() => {
       let current = new Date().getTime()
       if (current - _this.lasttime > 600000) {
-        // console.log('logout')
         localStorage.removeItem('token')
         localStorage.removeItem('username')
         // 记得加上啊，更新全局状态
         this.$store.commit('setInfo')
         this.$router.push({name: 'Home'})
       }
-    }, 180000)
+    }, 300000)
   },
   destroyed () {
-    // window.removeEventListener('beforeunload', this.beforeunloadHandler)
+    window.removeEventListener('mousemove', this.mousemoveHandler)
     if (this.timer) {
       clearInterval(this.timer) // 在vue实例销毁钱，清除我们的定时器
     }

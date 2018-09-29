@@ -196,12 +196,6 @@
             <el-button type="primary" @click="submitForm('form')" :disabled='disabled'>
               立即创建
             </el-button>
-            <el-button type="primary"
-              @click.stop='testClick'
-              @dblclick.native='testdbClick'
-            >
-              test
-            </el-button>
           </el-form-item>
         </el-col>
       </el-row>
