@@ -17,7 +17,8 @@ export default {
   name: 'Home',
   data () {
     return {
-      lasttime: new Date().getTime()
+      // lasttime: new Date().getTime()
+      lasttime: parseInt(localStorage.getItem('lasttime'))
     }
   },
   components: {
@@ -30,19 +31,30 @@ export default {
       // let n = window.event.screenX - window.screenLeft
       // // 鼠标在当前窗口内时，n<m，b为false；鼠标在当前窗口外时，n>m，b为true。20这个值是指关闭按钮的宽度
       // let b = n > document.documentElement.scrollWidth - 20
-      // // if (b && window.event.clientY < 0 || window.event.altKey || window.event.ctrlKey) {
+      // if (b && window.event.clientY < 0 || window.event.altKey || window.event.ctrlKey) {
       //   console.log('close')
       // } else if (window.event.clientY > document.body.clientHeight || window.event.altKey) {
       //   console.log('刷新')
       // }
+      localStorage.setItem('lasttime', this.lasttime)
     },
-    mousemoveHandler () {
+    mousemoveHandler (event) {
       this.lasttime = new Date().getTime()
     }
   },
   mounted () {
-    // window.addEventListener('beforeunload', this.beforeunloadHandler)
+    window.addEventListener('beforeunload', this.beforeunloadHandler)
     window.addEventListener('mousemove', this.mousemoveHandler)
+
+    let current = new Date().getTime()
+    let delta = current - this.lasttime
+    if (isNaN(delta) || delta > 600000) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      this.$store.commit('setInfo')
+      this.$router.push({name: 'Home'})
+    }
+
     let _this = this
     this.timer = setInterval(() => {
       let current = new Date().getTime()
