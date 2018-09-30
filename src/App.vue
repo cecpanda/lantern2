@@ -38,7 +38,7 @@ export default {
       // }
       localStorage.setItem('lasttime', this.lasttime)
     },
-    mousemoveHandler (event) {
+    mousemoveHandler () {
       this.lasttime = new Date().getTime()
     }
   },
@@ -69,6 +69,7 @@ export default {
   },
   destroyed () {
     window.removeEventListener('mousemove', this.mousemoveHandler)
+    window.removeEventListener('beforeunload', this.beforeunloadHandler)
     if (this.timer) {
       clearInterval(this.timer) // 在vue实例销毁钱，清除我们的定时器
     }
