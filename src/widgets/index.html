@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="zrender.min.js"></script>
+  <script src="echarts.min.js"></script>
+  <style>
+    #main {
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <div id="main" style="width: 500px;height:800px;"></div>
+  <script>
+    var zr = zrender.init(document.getElementById('main'));
+    var b21 = new zrender.Rect({
+      draggable: true,
+      shape: {
+        // r: [10, 10, 10, 10],
+        x: 250,
+        y: 25,
+        width: 100,
+        height: 25
+      },
+      style: {
+        fill: '#fff',
+        stroke: '#000',
+        // opacity: 0.2,
+        shadowBlur: 10,
+        shadowColor: '#409EFF',
+        lineWidth: 1,
+        shadowOffsetX: '-5',
+        shadowOffsetY: '5',
+        text: '开始',
+        fontSize: 15
+        // textShadowBlur: 10,
+        // textShadowColor: '#409EFF'
+      },
+      origin: [300, 37]
+    })
+    b21.on('mouseover', function() {
+      b21.animate('style', false)
+        .when(100, {
+          // fill: '#5FEA53',
+          fontSize: 20
+        })
+        .start()
+      b21.animate('scale', false)
+        .when(100, [1.5, 1.5])
+        .start()
+    })
+    b21.on('mouseout', function() {
+      b21.animate('style', false)
+        .when(100, {
+          // fill: '#fff',
+          fontSize: 15
+        })
+        .start()
+      b21.animate('scale', false)
+        .when(100, [1, 1])
+        .start()
+    })
+    zr.add(b21)
+
+    var l11 = new zrender.Line({
+      shape: {
+        x1: 300,
+        y1: 50,
+        x2: 300,
+        y2: 75
+      },
+      style: {
+        stroke: '#000'
+      }
+    })
+    zr.add(l11)
+
+    var b22 = new zrender.Polygon({
+      shape: {
+        points: [[300, 75], [400, 87], [300, 100], [200, 87]],
+        smooth: 0.3
+      },
+      style: {
+        fill: '#fff',
+        stroke: '#000',
+        text: '开单工程是否为 QC'
+      }
+    })
+    zr.add(b22)
+
+    var l22 = new zrender.Line({
+      shape: {
+        x1: 200,
+        y1: 87,
+        x2: 100,
+        y2: 125
+      },
+      style: {
+        text: 'N',
+        // textPosition: 'top'
+      }
+    })
+    zr.add(l22)
+
+    var b11 = new zrender.Rect({
+      shape: {
+        x: 50,
+        y: 125,
+        width: 100,
+        height: 25
+      },
+      style: {
+        fill: '#fff',
+        stroke: '#000',
+        text: '生产签核'
+      }
+    })
+    zr.add(b11)
+
+    var l11 = new zrender.Line({
+      shape: {
+        x1: 100,
+        y1: 150,
+        x2: 100,
+        y2: 175
+      },
+    })
+    zr.add(l11)
+
+    var b12 = new zrender.Rect({
+      shape: {
+        x: 50,
+        y: 175,
+        width: 100,
+        height: 25
+      },
+      style: {
+        fill: '#fff',
+        stroke: '#000',
+        text: '停机完成'
+      }
+    })
+    zr.add(b12)
+
+    var l23 = new zrender.Line({
+      shape: {
+        x1: 300,
+        y1: 100,
+        x2: 300,
+        y2: 125
+      },
+      style: {
+        text: 'Y',
+        textPosition: 'left'
+      }
+    })
+    zr.add(l23)
+
+    var b23 = new zrender.Polygon({
+      shape: {
+        points: [[300, 125], [350, 137], [300, 150], [250, 137]],
+        smooth: 0.3
+      },
+      style: {
+        fill: '#fff',
+        stroke: '#000',
+        text: '绝对不良'
+      }
+    })
+    zr.add(b23)
+
+    var l24 = new zrender.Line({
+      shape: {
+        x1: 300,
+        y1: 150,
+        x2: 300,
+        y2: 175
+      },
+      style: {
+        stroke: '#000',
+        text: 'Y',
+        textPosition: 'left'
+      }
+    })
+    zr.add(l24)
+
+    var b24 = new zrender.Rect({
+      shape: {
+        x: 250,
+        y: 175,
+        width: 100,
+        height: 25
+      },
+      style: {
+        fill: '#fff',
+        stroke: '#000',
+        text: '生产签核'
+      }
+    })
+    zr.add(b24)
+
+    var l25 = new zrender.Line({
+      shape: {
+        x1: 300,
+        y1: 200,
+        x2: 300,
+        y2: 225
+      },
+      style: {
+        stroke: '#000'
+      }
+    })
+    zr.add(l25)
+
+    var b25 = new zrender.Rect({
+      shape: {
+        x: 250,
+        y: 225,
+        width: 100,
+        height: 25
+      },
+      style: {
+        fill: '#fff',
+        stroke: '#000',
+        text: '责任工程签核'
+      }
+    })
+    zr.add(b25)
+
+    var l26 = new zrender.Line({
+      shape: {
+        x1: 300,
+        y1: 250,
+        x2: 300,
+        y2: 275
+      },
+      style: {
+        stroke: '#000',
+        text: 'Y',
+        textPosition: 'left'
+      }
+    })
+    zr.add(l26)
+
+    var b26 = new zrender.Rect({
+      shape: {
+        x: 250,
+        y: 275,
+        width: 100,
+        height: 25
+      },
+      style: {
+        fill: '#fff',
+        stroke: '#000',
+        text: '停机完成'
+      }
+    })
+    zr.add(b26)
+
+    var l27 = new zrender.Line({
+      shape: {
+        x1: 350,
+        y1: 137,
+        x2: 500,
+        y2: 175
+      },
+      style: {
+        stroke: '#000',
+        text: 'N',
+      }
+    })
+    zr.add(l27)
+
+    var b31 = new zrender.Rect({
+      shape: {
+        x: 450,
+        y: 175,
+        width: 100,
+        height: 25
+      },
+      style: {
+        fill: '#fff',
+        stroke: '#000',
+        text: '责任工程签核'
+      }
+    })
+    zr.add(b31)
+
+    var l31 = new zrender.Line({
+      shape: {
+        x1: 500,
+        y1: 200,
+        x2: 500,
+        y2: 225
+      },
+      style: {
+        stroke: '#000',
+        text: 'Y',
+        textPosition: 'left'
+      }
+    })
+    zr.add(l31)
+
+    var b32 = new zrender.Rect({
+      shape: {
+        x: 450,
+        y: 225,
+        width: 100,
+        height: 25
+      },
+      style: {
+        fill: '#fff',
+        stroke: '#000',
+        text: '生产签核'
+      }
+    })
+    zr.add(b32)
+
+    var l32 = new zrender.Line({
+      shape: {
+        x1: 500,
+        y1: 250,
+        x2: 350,
+        y2: 287
+      },
+      style: {
+        stroke: '#000',
+      }
+    })
+    zr.add(l32)
+
+    var b33 = new zrender.Rect({
+      shape: {
+        x: 375,
+        y: 225,
+        width: 50,
+        height: 25
+      },
+      style: {
+        fill: '#fff',
+        stroke: '#000',
+        text: '拒签'
+      }
+    })
+    zr.add(b33)
+  </script>
+</body>
+</html>

@@ -302,3 +302,12 @@ export const drawChart = (ids) => {
     format: 'chart'
   })
 }
+
+// status flow
+export const getStatus = (id) => {
+  return axios.get(`${host}/tft/order/query/status-flow/`, {
+    params: {
+      id: id
+    }
+  })
+}

@@ -91,7 +91,7 @@
       ></el-table-column>
       <el-table-column prop="user.username" label="工号" min-width='80'>
         <template slot-scope="scope">
-          <UserPopover :username='scope.row.user.username'></UserPopover>
+          <UserPopover :username='scope.row.user.username' :key='scope.row.user.username'></UserPopover>
         </template>
       </el-table-column>
       <!-- <el-table-column prop="user.realname" label="真名" min-width='80'></el-table-column>

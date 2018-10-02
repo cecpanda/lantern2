@@ -13,7 +13,10 @@
         </el-col>
         <el-col :xs='24' :sm='12' :md='12' :lg='8' :xl='6'>
           <el-col :span='8' class='label'>状态</el-col>
-          <el-col :span='16' class='content'>{{ order.status.desc }}</el-col>
+          <el-col :span='16' class='content'>
+            <!-- {{ order.status.desc }} -->
+            <OrderStatus :id='id' :status='order.status.desc'></OrderStatus>
+          </el-col>
         </el-col>
         <el-col :xs='24' :sm='12' :md='12' :lg='8' :xl='6'>
           <el-col :span='8' class='label'>开单工程</el-col>
@@ -250,9 +253,9 @@
       :status='order.status.code'
     ></RecoverOrders>
 
-    <div class='button'>
-      <OrderStatus :order='id' :status='order.status.desc'></OrderStatus>
-    </div>
+    <!-- <div class='button'>
+      <OrderStatus :id='id' :status='order.status.desc'></OrderStatus>
+    </div> -->
 
     <el-row>
       <el-col :span='4' :offset='20'>
