@@ -144,7 +144,7 @@ export default {
 }
 </script>
 
-<style lang='stylus'>
+<style lang='stylus' scoped>
 .table-header
   th
     font-size 1.1em

@@ -17,8 +17,8 @@ export default {
   name: 'Home',
   data () {
     return {
-      // lasttime: new Date().getTime()
-      lasttime: parseInt(localStorage.getItem('lasttime'))
+      lasttime: new Date().getTime()
+      // lasttime: parseInt(localStorage.getItem('lasttime'))
     }
   },
   components: {
@@ -45,14 +45,36 @@ export default {
   mounted () {
     window.addEventListener('beforeunload', this.beforeunloadHandler)
     window.addEventListener('mousemove', this.mousemoveHandler)
+    // 这个有个问题，就是已登录状态下打开一个新的标签页时，也有可能退出，
+    // 因为读取了上一次关闭时的 lasttime。
+    // let current = new Date().getTime()
+    // let locallasttime = parseInt(localStorage.getItem('lasttime'))
 
+    // let delta = current - locallasttime
+
+    // if (isNaN(delta) || delta > 600000) {
+    //   localStorage.removeItem('token')
+    //   localStorage.removeItem('username')
+    //   this.$store.commit('setInfo')
+    //   this.$router.push({name: 'Home'})
+    // }
+
+    // 用这个思路：只要当前有页面打开，就定期清理 localStorage 里的 lasttime
+    // 已登录状态下打开新标签页，不退出登录
     let current = new Date().getTime()
-    let delta = current - this.lasttime
-    if (isNaN(delta) || delta > 600000) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('username')
-      this.$store.commit('setInfo')
-      this.$router.push({name: 'Home'})
+    let locallasttime = localStorage.getItem('lasttime')
+    localStorage.removeItem('lasttime')
+
+    if (locallasttime === null) {
+
+    } else {
+      let delta = current - parseInt(locallasttime)
+      if (isNaN(delta) || delta > 600000) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('username')
+        this.$store.commit('setInfo')
+        this.$router.push({name: 'Home'})
+      }
     }
 
     let _this = this
@@ -66,12 +88,19 @@ export default {
         this.$router.push({name: 'Home'})
       }
     }, 300000)
+
+    this.lasttimer = setInterval(() => {
+      localStorage.removeItem('lasttime')
+    }, 10000)
   },
   destroyed () {
     window.removeEventListener('mousemove', this.mousemoveHandler)
     window.removeEventListener('beforeunload', this.beforeunloadHandler)
     if (this.timer) {
       clearInterval(this.timer) // 在vue实例销毁钱，清除我们的定时器
+    }
+    if (this.lasttimer) {
+      clearInterval(this.lasttimer) // 在vue实例销毁钱，清除我们的定时器
     }
   }
 }

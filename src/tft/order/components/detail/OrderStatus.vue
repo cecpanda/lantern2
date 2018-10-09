@@ -12,7 +12,7 @@
       :visible.sync="visible"
       width="60%"
     >
-     <p>{{ data }}</p>
+     <!-- <p>{{ data }}</p> -->
      <div id="status" ref='status'></div>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="visible = false">关闭</el-button>
@@ -38,7 +38,7 @@ export default {
     return {
       visible: false,
       data: {},
-      current: '#2ECC19',
+      current: '#5EA1E7',
       ago: '#5EA1E7',
       defaultFill: '#fff',
       stroke: '#B4B7BB',
@@ -574,7 +574,7 @@ export default {
           shadowColor: this.shadowColor,
           shadowOffsetX: '-5',
           shadowOffsetY: '5',
-          text: '责任工程签核',
+          text: '停机完成',
           fontSize: this.fontSize
         },
         origin: [200, 362]
@@ -586,6 +586,427 @@ export default {
         this.mouseout(b10)
       })
       zr.add(b10)
+
+      let l14 = new zrender.Line({
+        draggable: true,
+        shape: {
+          x1: 200,
+          y1: 375,
+          x2: 200,
+          y2: 425
+        },
+        style: {
+          stroke: this.getStroke('l14'),
+          lineWidth: this.lineWidth
+        }
+      })
+      zr.add(l14)
+
+      let b11 = new zrender.Rect({
+        draggable: true,
+        shape: {
+          x: 125,
+          y: 425,
+          width: 150,
+          height: 25
+        },
+        style: {
+          fill: this.getFill('b11'),
+          stroke: this.getStroke('b11'),
+          shadowBlur: 10,
+          shadowColor: this.shadowColor,
+          shadowOffsetX: '-5',
+          shadowOffsetY: '5',
+          text: '申请复机/部分复机',
+          fontSize: this.fontSize
+        },
+        origin: [200, 437]
+      })
+      b11.on('mouseover', () => {
+        this.mouseover(b11)
+      })
+      b11.on('mouseout', () => {
+        this.mouseout(b11)
+      })
+      zr.add(b11)
+
+      let l15 = new zrender.Line({
+        draggable: true,
+        shape: {
+          x1: 200,
+          y1: 450,
+          x2: 200,
+          y2: 475
+        },
+        style: {
+          stroke: this.getStroke('l15'),
+          lineWidth: this.lineWidth
+        }
+      })
+      zr.add(l15)
+
+      let b12 = new zrender.Polygon({
+        draggable: true,
+        shape: {
+          points: [[200, 475], [300, 487], [200, 500], [100, 487]],
+          smooth: 0.3
+        },
+        style: {
+          fill: this.getFill('b12'),
+          stroke: this.getStroke('b12'),
+          shadowBlur: 10,
+          shadowColor: this.shadowColor,
+          shadowOffsetX: '-5',
+          shadowOffsetY: '5',
+          text: '开单工程是否为 QC',
+          fontSize: this.fontSize
+        },
+        origin: [200, 487]
+      })
+      b12.on('mouseover', () => {
+        this.mouseover(b12)
+      })
+      b12.on('mouseout', () => {
+        this.mouseout(b12)
+      })
+      zr.add(b12)
+
+      let l16 = new zrender.Line({
+        draggable: true,
+        shape: {
+          x1: 200,
+          y1: 500,
+          x2: 200,
+          y2: 550
+        },
+        style: {
+          stroke: this.getStroke('l16'),
+          lineWidth: this.lineWidth,
+          text: 'Y'
+        }
+      })
+      zr.add(l16)
+
+      let b13 = new zrender.Rect({
+        draggable: true,
+        shape: {
+          x: 125,
+          y: 550,
+          width: 150,
+          height: 25
+        },
+        style: {
+          fill: this.getFill('b13'),
+          stroke: this.getStroke('b13'),
+          shadowBlur: 10,
+          shadowColor: this.shadowColor,
+          shadowOffsetX: '-5',
+          shadowOffsetY: '5',
+          text: '责任工程 & QC 开单',
+          fontSize: this.fontSize
+        },
+        origin: [200, 562]
+      })
+      b13.on('mouseover', () => {
+        this.mouseover(b13)
+      })
+      b13.on('mouseout', () => {
+        this.mouseout(b13)
+      })
+      zr.add(b13)
+
+      let l17 = new zrender.Line({
+        draggable: true,
+        shape: {
+          x1: 200,
+          y1: 575,
+          x2: 200,
+          y2: 600
+        },
+        style: {
+          stroke: this.getStroke('l17'),
+          lineWidth: this.lineWidth
+        }
+      })
+      zr.add(l17)
+
+      let l18 = new zrender.Line({
+        draggable: true,
+        shape: {
+          x1: 200,
+          y1: 625,
+          x2: 200,
+          y2: 650
+        },
+        style: {
+          stroke: this.getStroke('l18'),
+          lineWidth: this.lineWidth,
+          text: 'Y'
+        }
+      })
+      zr.add(l18)
+
+      let l19 = new zrender.Line({
+        draggable: true,
+        shape: {
+          x1: 150,
+          y1: 612,
+          x2: 100,
+          y2: 612
+        },
+        style: {
+          stroke: this.getStroke('l19'),
+          lineWidth: this.lineWidth,
+          text: 'N'
+        }
+      })
+      zr.add(l19)
+
+      let b15 = new zrender.Rect({
+        draggable: true,
+        shape: {
+          x: 150,
+          y: 600,
+          width: 100,
+          height: 25
+        },
+        style: {
+          fill: this.getFill('b15'),
+          stroke: this.getStroke('b15'),
+          shadowBlur: 10,
+          shadowColor: this.shadowColor,
+          shadowOffsetX: '-5',
+          shadowOffsetY: '5',
+          text: 'QC 签核',
+          fontSize: this.fontSize
+        },
+        origin: [200, 612]
+      })
+      b15.on('mouseover', () => {
+        this.mouseover(b15)
+      })
+      b15.on('mouseout', () => {
+        this.mouseout(b15)
+      })
+      zr.add(b15)
+
+      let b16 = new zrender.Rect({
+        draggable: true,
+        shape: {
+          x: 150,
+          y: 650,
+          width: 100,
+          height: 25
+        },
+        style: {
+          fill: this.getFill('b16'),
+          stroke: this.getStroke('b16'),
+          shadowBlur: 10,
+          shadowColor: this.shadowColor,
+          shadowOffsetX: '-5',
+          shadowOffsetY: '5',
+          text: '生产签核',
+          fontSize: this.fontSize
+        },
+        origin: [200, 662]
+      })
+      b16.on('mouseover', () => {
+        this.mouseover(b16)
+      })
+      b16.on('mouseout', () => {
+        this.mouseout(b16)
+      })
+      zr.add(b16)
+
+      let b17 = new zrender.Rect({
+        draggable: true,
+        shape: {
+          x: 50,
+          y: 600,
+          width: 50,
+          height: 25
+        },
+        style: {
+          fill: this.getFill('b17'),
+          stroke: this.getStroke('b17'),
+          shadowBlur: 10,
+          shadowColor: this.shadowColor,
+          shadowOffsetX: '-5',
+          shadowOffsetY: '5',
+          text: '拒签',
+          fontSize: this.fontSize
+        },
+        origin: [75, 612]
+      })
+      b17.on('mouseover', () => {
+        this.mouseover(b17)
+      })
+      b17.on('mouseout', () => {
+        this.mouseout(b17)
+      })
+      zr.add(b17)
+
+      let l20 = new zrender.Line({
+        draggable: true,
+        shape: {
+          x1: 200,
+          y1: 675,
+          x2: 200,
+          y2: 700
+        },
+        style: {
+          stroke: this.getStroke('l20'),
+          lineWidth: this.lineWidth
+        }
+      })
+      zr.add(l20)
+
+      let l24 = new zrender.Line({
+        draggable: true,
+        shape: {
+          x1: 125,
+          y1: 712,
+          x2: 50,
+          y2: 712
+        },
+        style: {
+          stroke: this.getStroke('l24'),
+          lineWidth: this.lineWidth
+        }
+      })
+      zr.add(l24)
+
+      let b18 = new zrender.Rect({
+        draggable: true,
+        shape: {
+          x: 125,
+          y: 700,
+          width: 150,
+          height: 25
+        },
+        style: {
+          fill: this.getFill('b18'),
+          stroke: this.getStroke('b18'),
+          shadowBlur: 10,
+          shadowColor: this.shadowColor,
+          shadowOffsetX: '-5',
+          shadowOffsetY: '5',
+          text: '(部分)复机完成',
+          fontSize: this.fontSize
+        },
+        origin: [200, 712]
+      })
+      b18.on('mouseover', () => {
+        this.mouseover(b18)
+      })
+      b18.on('mouseout', () => {
+        this.mouseout(b18)
+      })
+      zr.add(b18)
+
+      let l21 = new zrender.Line({
+        draggable: true,
+        shape: {
+          x1: 200,
+          y1: 500,
+          x2: 350,
+          y2: 550
+        },
+        style: {
+          stroke: this.getStroke('l21'),
+          lineWidth: this.lineWidth,
+          text: 'N'
+        }
+      })
+      zr.add(l21)
+
+      let l22 = new zrender.Line({
+        draggable: true,
+        shape: {
+          x1: 350,
+          y1: 575,
+          x2: 350,
+          y2: 662
+        },
+        style: {
+          stroke: this.getStroke('l22'),
+          lineWidth: this.lineWidth
+        }
+      })
+      zr.add(l22)
+
+      let l23 = new zrender.Line({
+        draggable: true,
+        shape: {
+          x1: 350,
+          y1: 662,
+          x2: 250,
+          y2: 662
+        },
+        style: {
+          stroke: this.getStroke('l23'),
+          lineWidth: this.lineWidth
+        }
+      })
+      zr.add(l23)
+
+      let b14 = new zrender.Rect({
+        draggable: true,
+        shape: {
+          x: 300,
+          y: 550,
+          width: 100,
+          height: 25
+        },
+        style: {
+          fill: this.getFill('b14'),
+          stroke: this.getStroke('b14'),
+          shadowBlur: 10,
+          shadowColor: this.shadowColor,
+          shadowOffsetX: '-5',
+          shadowOffsetY: '5',
+          text: '责任工程 开单',
+          fontSize: this.fontSize
+        },
+        origin: [350, 562]
+      })
+      b14.on('mouseover', () => {
+        this.mouseover(b14)
+      })
+      b14.on('mouseout', () => {
+        this.mouseout(b14)
+      })
+      zr.add(b14)
+
+      let l25 = new zrender.Line({
+        draggable: true,
+        shape: {
+          x1: 50,
+          y1: 712,
+          x2: 50,
+          y2: 437
+        },
+        style: {
+          stroke: this.getStroke('l25'),
+          lineWidth: this.lineWidth
+        }
+      })
+      zr.add(l25)
+
+      let l26 = new zrender.Line({
+        draggable: true,
+        shape: {
+          x1: 50,
+          y1: 437,
+          x2: 125,
+          y2: 437
+        },
+        style: {
+          stroke: this.getStroke('l26'),
+          lineWidth: this.lineWidth
+        }
+      })
+      zr.add(l26)
     }
   }
 }
@@ -596,4 +1017,5 @@ export default {
   border 1px solid #000
   width 500px
   height 800px
+  margin 0 auto
 </style>
