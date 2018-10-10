@@ -34,11 +34,13 @@ const router = new Router({
       name: 'Home',
       // component: Home
       redirect: '/tft/order'
-    }, {
+    },
+    {
       path: '/login',
       name: 'Login',
       component: Login
-    }, {
+    },
+    {
       path: '/user',
       component: User,
       meta: {
@@ -48,92 +50,108 @@ const router = new Router({
         {
           path: '',
           component: Action
-        }, {
+        },
+        {
           path: 'edit',
           component: Edit
-        }, {
+        },
+        {
           path: 'follow',
           component: Follow
-        }, {
+        },
+        {
           path: 'change-password',
           component: ChangePassword
         }
       ]
-    }, {
+    },
+    {
       path: '/tft/order',
       component: Order,
       children: [
         {
           path: '',
           component: Summary
-        }, {
+        },
+        {
           path: 'start',
           component: StartOrder,
           meta: {
             requireAuth: true
           }
-        }, {
+        },
+        {
           path: 'update/:id',
           component: UpdateOrder,
           props: true,
           meta: {
             requireAuth: true
           }
-        }, {
+        },
+        {
           path: 'to-audit',
           component: ToAudit,
           props: true,
           meta: {
             requireAuth: true
           }
-        }, {
+        },
+        {
           path: 'to-recover-audit',
           component: ToRecoverAudit,
           props: true,
           meta: {
             requireAuth: true
           }
-        }, {
+        },
+        {
           path: 'mystart',
           component: MyStart,
           meta: {
             requireAuth: true
           }
-        }, {
+        },
+        {
           path: 'myrecover',
           component: MyRecover,
           meta: {
             requireAuth: true
           }
-        }, {
+        },
+        {
           path: 'mystartaudit',
           component: MyStartAudit,
           meta: {
             requireAuth: true
           }
-        }, {
+        },
+        {
           path: 'myrecoveraudit',
           component: MyRecoverAudit,
           meta: {
             requireAuth: true
           }
-        }, {
+        },
+        {
           path: 'detail/:id',
           component: Detail,
           props: true
-        }, {
+        },
+        {
           path: 'query',
           component: Query
         }
       ]
-    }, {
+    },
+    {
       path: '/widget',
       component: Wiget,
       children: [
         {
           path: 'clock',
           component: Clock
-        }, {
+        },
+        {
           path: 'panda',
           component: Panda
         }

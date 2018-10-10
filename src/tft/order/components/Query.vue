@@ -149,10 +149,10 @@
     <el-row class='toolbox'>
       <el-button type="primary" plain @click="toggleSelection(['toggle'])">全部选择</el-button>
       <el-button type="primary" plain @click="toggleSelection()">取消选择</el-button>
-      <!-- <el-button type="success">图表统计</el-button> -->
       <QueryChart :selectId='selectId'></QueryChart>
-      <el-button type="success" @click='exporter("csv")'>导出csv</el-button>
-      <el-button type="success">导出excel</el-button>
+      <el-button type="success" @click='exporter("csv")'>导出 csv</el-button>
+      <el-button type="success" @click='exporter("xlsx")'>导出 Excel 2007 -></el-button>
+      <el-button type="success" @click='exporter("xls")'>导出 Excel 2003</el-button>
       <p class='button-tip'>
         注意，换页后之前的选择项失效！ <br>
         如果 csv 乱码：数据>自文本>导入>utf-8>下一步>逗号
