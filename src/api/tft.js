@@ -295,6 +295,11 @@ export const exporter = (params) => {
   return axios.post(`${host}/tft/order/query/export/`, params)
 }
 
+// export detail as xlsx
+export const exportDetail = (id) => {
+  return axios.get(`${host}/tft/order/query/${id}/export-detail/`)
+}
+
 // draw chart
 export const drawChart = (ids) => {
   return axios.post(`${host}/tft/order/query/export/`, {

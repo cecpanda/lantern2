@@ -258,8 +258,17 @@
     </div> -->
 
     <el-row>
-      <el-col :span='4' :offset='20'>
+      <el-col :span='3' :offset='18'>
         <CreateRecoverOrder :order='id' @change='handleChange'></CreateRecoverOrder>
+      </el-col>
+      <el-col :span='3'>
+        <el-button
+          type="info"
+          icon="el-icon-download"
+          @click='exporting'
+        >
+          导出xlsx
+        </el-button>
       </el-col>
     </el-row>
 
@@ -269,7 +278,7 @@
 </template>
 
 <script>
-import { getOrder, canUpdate } from '@/api/tft'
+import { getOrder, canUpdate, exportDetail } from '@/api/tft'
 import { formatDate } from '@/common/js/date.js'
 import BackTop from '@/common/components/BackTop'
 import OrderStatus from './detail/OrderStatus'
@@ -324,6 +333,15 @@ export default {
       canUpdate(this.id)
         .then((res) => {
           this.canBeUpdated = res.data.can
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    exporting () {
+      exportDetail(this.id)
+        .then((res) => {
+          window.open(res.data.url, '_blank')
         })
         .catch((err) => {
           console.log(err)
