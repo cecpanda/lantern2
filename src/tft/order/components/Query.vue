@@ -71,7 +71,7 @@
     >
       <el-table-column type="selection" width="50"></el-table-column>
       <!-- <el-table-column type="index" width="50"></el-table-column> -->
-      <el-table-column label="编号" min-width='100'>
+      <el-table-column label="编号" min-width='120'>
         <template slot-scope="scope">
           <router-link
             :to="'/tft/order/detail/' + scope.row.id"
