@@ -13,7 +13,7 @@
             <el-input v-model="profile.username" disabled></el-input>
           </el-form-item>
           <el-form-item label="真实姓名">
-            <el-input v-model="profile.realname"></el-input>
+            <el-input v-model="profile.realname" disabled></el-input>
           </el-form-item>
           <el-form-item label="邮箱">
             <el-input v-model="profile.email"></el-input>

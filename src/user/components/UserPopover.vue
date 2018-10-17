@@ -14,7 +14,7 @@
     <br>
     <br>
     注册日期: {{ user.date_joined | formatDate }}
-    <el-button slot="reference">{{ username }}</el-button>
+    <el-button slot="reference" size='mini'>{{ user.realname }}</el-button>
   </el-popover>
 </template>
 

@@ -10,7 +10,12 @@
     <el-row>
       <el-col :xs='24' :sm='12' :md='12' :lg='12' :xl='6'>
         <el-col :span='8' class='label'>申请人</el-col>
-        <el-col :span='16' class='content'>{{ recoverorder.user.username }}</el-col>
+        <el-col :span='16' class='content'>
+          <User
+            :username='recoverorder.user.username'
+            :key='recoverorder.user.username'
+          ></User>
+        </el-col>
       </el-col>
       <el-col :xs='24' :sm='12' :md='12' :lg='12' :xl='6'>
         <el-col :span='8' class='label'>申请时间</el-col>
@@ -20,7 +25,13 @@
     <el-row>
       <el-col :xs='24' :sm='12' :md='12' :lg='12' :xl='6'>
         <el-col :span='8' class='label'>修改人</el-col>
-        <el-col :span='16' class='content'>{{ recoverorder.mod_user.username }}</el-col>
+        <el-col :span='16' class='content'>
+          <User
+            :username='recoverorder.mod_user.username'
+            :key='recoverorder.mod_user.username'
+            v-if='recoverorder.mod_user.username'
+          ></User>
+        </el-col>
       </el-col>
       <el-col :xs='24' :sm='12' :md='12' :lg='12' :xl='6'>
         <el-col :span='8' class='label'>修改时间</el-col>
@@ -79,13 +90,16 @@
       <el-col :xs='24' :sm='12' :md='12' :lg='12' :xl='6'>
         <el-col :span='8' class='label'>工程品质签复</el-col>
         <el-col :span='16' class='content'>
-          <template v-if='status === "5" && !recoverorder.audit.qc_signer.username'>
-            <RecoverQcAudit
-              :recoverorder='recoverorder'
-              @change='handleChange'
-            ></RecoverQcAudit>
-          </template>
-          <span>{{ recoverorder.audit.qc_signer.username }}</span>
+          <RecoverQcAudit
+            :recoverorder='recoverorder'
+            @change='handleChange'
+            v-if='status === "5" && !recoverorder.audit.qc_signer.username'
+          ></RecoverQcAudit>
+          <User
+            :username='recoverorder.audit.qc_signer.username'
+            :key='recoverorder.audit.qc_signer.username'
+            v-else-if='recoverorder.audit.qc_signer.username'
+          ></User>
         </el-col>
       </el-col>
       <el-col :xs='24' :sm='12' :md='12' :lg='12' :xl='6'>
@@ -97,13 +111,16 @@
       <el-col :xs='24' :sm='12' :md='12' :lg='12' :xl='6'>
         <el-col :span='8' class='label'>生产领班签复</el-col>
         <el-col :span='16' class='content'>
-          <template v-if='status === "6" && !recoverorder.audit.p_signer.username'>
-            <RecoverProductAudit
-              :recoverorder='recoverorder'
-              @change='handleChange'
-            ></RecoverProductAudit>
-          </template>
-          {{ recoverorder.audit.p_signer.username }}
+          <RecoverProductAudit
+            :recoverorder='recoverorder'
+            @change='handleChange'
+            v-if='status === "6" && !recoverorder.audit.p_signer.username'
+          ></RecoverProductAudit>
+          <User
+            :username='recoverorder.audit.p_signer.username'
+            :key='recoverorder.audit.p_signer.username'
+            v-else-if='recoverorder.audit.p_signer.username'
+          ></User>
         </el-col>
       </el-col>
       <el-col :xs='24' :sm='12' :md='12' :lg='12' :xl='6'>
@@ -135,6 +152,7 @@ import { canUpdateRecoverOrder } from '@/api/tft'
 import UpdateRecoverOrder from './UpdateRecoverOrder'
 import RecoverQcAudit from './RecoverQcAudit'
 import RecoverProductAudit from './RecoverProductAudit'
+import User from '@/user/components/UserPopover'
 
 export default {
   name: 'RecoverOrder',
@@ -172,7 +190,8 @@ export default {
   components: {
     UpdateRecoverOrder,
     RecoverQcAudit,
-    RecoverProductAudit
+    RecoverProductAudit,
+    User
   },
   mounted () {
     this.canUpdate()

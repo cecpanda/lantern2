@@ -27,7 +27,11 @@
         <el-col :xs='24' :sm='12' :md='12' :lg='8' :xl='6'>
           <el-col :span='8' class='label'>开单人员</el-col>
           <el-col :span='16' class='content'>
-            {{ order.user.username }} {{ order.user.realname }}
+            <User
+              :username='order.user.username'
+              :key='order.user.username'
+              v-if='order.user.username'
+            ></User>
           </el-col>
         </el-col>
         <el-col :xs='24' :sm='12' :md='12' :lg='8' :xl='6'>
@@ -39,10 +43,15 @@
         <el-col :xs='24' :sm='12' :md='12' :lg='8' :xl='6'>
           <el-col :span='8' class='label'>修改人员</el-col>
           <el-col :span='16' class='content'>
-            <span v-if='order.mod_user'>
+            <User
+              :username='order.mod_user.username'
+              :key='order.mod_user.username'
+              v-if='order.mod_user.username'
+            ></User>
+            <!-- <span v-if='order.mod_user'>
               {{ order.mod_user.username}} {{ order.mod_user.realname }}
             </span>
-            <span v-else></span>
+            <span v-else></span> -->
           </el-col>
         </el-col>
         <el-col :xs='24' :sm='12' :md='12' :lg='8' :xl='6'>
@@ -202,16 +211,23 @@
         <el-col :xs='24' :sm='12' :md='12' :lg='12' :xl='6'>
           <el-col :span='8' class='label'>生产领班签核</el-col>
           <el-col :span='16' class='content'>
-            <template v-if='order.status.code === "1"'>
-              <ProductAudit :order='id' @change='handleChange'></ProductAudit>
-            </template>
-            <template v-else>{{ order.startaudit.p_signer.username }}</template>
+            <ProductAudit
+              :order='id'
+              @change='handleChange'
+              v-if='order.status.code === "1"'></ProductAudit>
+            <User
+              :username='order.startaudit.p_signer.username'
+              :key='order.startaudit.p_signer.username'
+              v-else-if='order.startaudit.p_signer.username'
+            ></User>
           </el-col>
         </el-col>
         <el-col :xs='24' :sm='12' :md='12' :lg='12' :xl='6'>
           <el-col :span='8' class='label'>生产签字时间</el-col>
           <el-col :span='16' class='content'>{{ order.startaudit.p_time | formatDate }}</el-col>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :xs='24' :sm='12' :md='12' :lg='12' :xl='6'>
           <el-col :span='8' class='label'>Recipe关闭人员</el-col>
           <el-col :span='16' class='content'>{{ order.startaudit.recipe_close }}</el-col>
@@ -223,10 +239,17 @@
         <el-col :xs='24' :sm='12' :md='12' :lg='12' :xl='6'>
           <el-col :span='8' class='label'>责任工程签字</el-col>
           <el-col :span='16' class='content'>
-            <template v-if='order.status.code === "2"'>
-              <ChargeAudit :order='id' :group-name='order.charge_group.name' @change='handleChange'></ChargeAudit>
-            </template>
-            <template v-else>{{ order.startaudit.c_signer.username }}</template>
+            <ChargeAudit
+              :order='id'
+              :group-name='order.charge_group.name'
+              @change='handleChange'
+              v-if='order.status.code === "2"'
+            ></ChargeAudit>
+            <User
+              :username='order.startaudit.c_signer.username'
+              :key='order.startaudit.c_signer.username'
+              v-else-if='order.startaudit.c_signer.username'
+            ></User>
           </el-col>
         </el-col>
         <el-col :xs='24' :sm='12' :md='12' :lg='12' :xl='6'>
@@ -287,6 +310,7 @@ import ProductAudit from './detail/ProductAudit'
 import ChargeAudit from './detail/ChargeAudit'
 import RecoverOrders from './detail/RecoverOrders'
 import CreateRecoverOrder from './detail/CreateRecoverOrder'
+import User from '@/user/components/UserPopover'
 
 export default {
   name: 'Detail',
@@ -355,7 +379,8 @@ export default {
     ProductAudit,
     ChargeAudit,
     RecoverOrders,
-    CreateRecoverOrder
+    CreateRecoverOrder,
+    User
   },
   filters: {
     formatDate (time) {
