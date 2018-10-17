@@ -89,9 +89,10 @@
         :filters='statusFilters'
         :filter-method='filterStatus'
       ></el-table-column>
-      <el-table-column prop="user.username" label="工号" min-width='80'>
+      <el-table-column prop="user.username" label="开单人" min-width='80'>
         <template slot-scope="scope">
-          <UserPopover :username='scope.row.user.username' :key='scope.row.user.username'></UserPopover>
+          <!-- <UserPopover :username='scope.row.user.username' :key='scope.row.user.username'></UserPopover> -->
+          {{ scope.row.user.realname }}
         </template>
       </el-table-column>
       <!-- <el-table-column prop="user.realname" label="真名" min-width='80'></el-table-column>

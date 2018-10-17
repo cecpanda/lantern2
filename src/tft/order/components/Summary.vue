@@ -13,7 +13,6 @@
           <el-table-column prop="rejects" label="停机拒签" width="100"></el-table-column>
           <el-table-column prop="closed" label="停机完成" width="100"></el-table-column>
           <el-table-column prop="finished" label="已复机" width="100"></el-table-column>
-          <el-table-column prop="others" label="其他" width="100"></el-table-column>
         </el-table>
       </el-col>
       <el-col :xs='18' :sm='18' :md='8' :lg='8' :xl='8' :offset='4' class='notice'>
