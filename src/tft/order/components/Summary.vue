@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-col :xs='24' :sm='24' :md='12' :lg='12' :xl='12'>
+      <el-col :span='18'>
         <el-table
           :data='tableData'
           border
@@ -12,19 +12,25 @@
           <el-table-column prop="audits" label="停机审核中" width="100"></el-table-column>
           <el-table-column prop="rejects" label="停机拒签" width="100"></el-table-column>
           <el-table-column prop="closed" label="停机完成" width="100"></el-table-column>
-          <el-table-column prop="finished" label="已复机" width="100"></el-table-column>
+          <el-table-column prop="r_audits" label="复机审核中" width="100"></el-table-column>
+          <el-table-column prop="r_rejects" label="复机拒签" width="100"></el-table-column>
+          <el-table-column prop="r_closed" label="部分复机完成" width="120"></el-table-column>
+          <el-table-column prop="finished" label="全部复机完成" width="120"></el-table-column>
         </el-table>
       </el-col>
-      <el-col :xs='18' :sm='18' :md='8' :lg='8' :xl='8' :offset='4' class='notice'>
-        <h3>公告</h3>
+      <el-col :span='6' class='table-tip'>
+        <span>复机审核中: </span>未完成部分复机，未完成全部复机，复机申请签核中<br><br>
+        <span>复机拒签: </span>未完成部分复机，未完成全部复机，且复机申请被拒签<br><br>
+        <span>部分复机完成: </span>停机单有完成部分复机，但未完成全部复机<br><br>
+        <span>全部复机完成: </span>停机单完成全部复机<br><br>
       </el-col>
     </el-row>
     <el-row class='chart'>
-      <el-col :xs='24' :sm='24' :md='11' :lg='11' :xl='11'>
-        <v-chart :options='pie' :auto-resize='true'/>
+      <el-col :xs='24' :sm='24' :md='10' :lg='10' :xl='10'>
+        <v-chart :init-options='initPieOptions' :options='pie'/>
       </el-col>
-      <el-col :xs='24' :sm='24' :md='13' :lg='13' :xl='13'>
-        <v-chart :init-options='initOptions' :options='bar' :auto-resize='true'/>
+      <el-col :xs='24' :sm='24' :md='14' :lg='14' :xl='14'>
+        <v-chart :init-options='initBarOptions' :options='bar' :auto-resize='true'/>
         <br><br><br><br><br><br><br><br><br><br><br><br>
       </el-col>
     </el-row>
@@ -50,7 +56,11 @@ export default {
       tableData: [],
       barData: [],
       pieData: [],
-      initOptions: {
+      initPieOptions: {
+        width: 400,
+        height: 400
+      },
+      initBarOptions: {
         width: 800,
         height: 600
       }
@@ -73,7 +83,16 @@ export default {
         },
         legend: {
           top: 30,
-          data: ['停机单数', '停机审核中', '停机拒签', '停机完成', '已复机', '其他']
+          data: [
+            '停机单数',
+            '停机审核中',
+            '停机拒签',
+            '停机完成',
+            '复机审核中',
+            '复机拒签',
+            '部分复机完成',
+            '全部复机完成'
+          ]
         },
         xAxis: {
           data: this.groups
@@ -152,10 +171,13 @@ export default {
   background-color #CFE0F1
 .el-table__row:nth-child(2n+1)
   background-color #fff
-.notice
+
+.table-tip
   border 1px dashed #000
   min-height 200px
   box-shadow -10px 10px 10px #ccc
+  span
+    font-weight bold
 .chart
-  margin-top 50px
+  margin-top 80px
 </style>

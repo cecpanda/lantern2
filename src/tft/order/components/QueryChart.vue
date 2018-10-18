@@ -17,13 +17,16 @@
         <el-table-column prop="audits" label="停机审核中" width="100"></el-table-column>
         <el-table-column prop="rejects" label="停机拒签" width="100"></el-table-column>
         <el-table-column prop="closed" label="停机完成" width="100"></el-table-column>
-        <el-table-column prop="finished" label="已复机" width="100"></el-table-column>
-        <el-table-column prop="others" label="其他" width="100"></el-table-column>
+        <el-table-column prop="r_audits" label="复机审核中" width="100"></el-table-column>
+        <el-table-column prop="r_rejects" label="复机拒签" width="100"></el-table-column>
+        <el-table-column prop="r_closed" label="部分复机完成" width="120"></el-table-column>
+        <el-table-column prop="finished" label="全部复机完成" width="120"></el-table-column>
       </el-table>
-      <br><br><br><br>
+      <br><br>
+      <v-chart :options='pie' :auto-resize='true'/>
+      <br><br>
       <v-chart :init-options='initOptions' :options='bar' :auto-resize='true'/>
       <br><br><br><br><br><br><br><br><br><br><br>
-      <v-chart :options='pie' :auto-resize='true'/>
     </el-dialog>
   </div>
 </template>
@@ -54,8 +57,8 @@ export default {
       barData: [],
       pieData: [],
       initOptions: {
-        width: 600,
-        height: 400
+        width: 800,
+        height: 600
       }
     }
   },
@@ -76,7 +79,16 @@ export default {
         },
         legend: {
           top: 30,
-          data: ['停机单数', '停机审核中', '停机拒签', '停机完成', '已复机', '其他']
+          data: [
+            '停机单数',
+            '停机审核中',
+            '停机拒签',
+            '停机完成',
+            '复机审核中',
+            '复机拒签',
+            '部分复机完成',
+            '全部复机完成'
+          ]
         },
         xAxis: {
           data: this.groups
