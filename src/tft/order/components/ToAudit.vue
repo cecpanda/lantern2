@@ -53,7 +53,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getOrders } from '@/api/tft'
+// import { getOrders } from '@/api/tft'
+import { toAudit } from '@/api/tft'
 import { getUser } from '@/api/user'
 import { formatDate } from '@/common/js/date.js'
 
@@ -99,24 +100,32 @@ export default {
     async getOrders () {
       await this.getGroup()
 
-      let params
+      // let params
 
-      if (this.group.name === 'MFG') {
-        params = {status: 1, page: this.page, 'page-size': this.pageSize}
-      } else if (this.group.name) {
-        params = {status: 2, charge_group: this.group.name, page: this.page, 'page-size': this.pageSize}
-      }
+      // if (this.group.name === 'MFG') {
+      //   params = {status: 1, page: this.page, 'page-size': this.pageSize}
+      // } else if (this.group.name) {
+      //   params = {status: 2, charge_group: this.group.name, page: this.page, 'page-size': this.pageSize}
+      // }
 
-      if (params) {
-        getOrders(params)
-          .then((res) => {
-            this.count = res.data.count
-            this.orders = res.data.results
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
+      // if (params) {
+      //   getOrders(params)
+      //     .then((res) => {
+      //       this.count = res.data.count
+      //       this.orders = res.data.results
+      //     })
+      //     .catch((err) => {
+      //       console.log(err)
+      //     })
+      // }
+      toAudit()
+        .then((res) => {
+          this.count = res.data.count
+          this.orders = res.data.results
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     handleCurrentChange (val) {
       this.getOrders()

@@ -53,7 +53,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getRecoverOrders } from '@/api/tft'
+// import { getRecoverOrders } from '@/api/tft'
+import { toRecoverAudit } from '@/api/tft'
 import { getUser } from '@/api/user'
 import { formatDate } from '@/common/js/date.js'
 
@@ -92,24 +93,32 @@ export default {
     async getOrders () {
       await this.getGroup()
 
-      let params
+      // let params
 
-      if (this.group.name === 'QC') {
-        params = {order__status: 5, page: this.page, 'page-size': this.pageSize}
-      } else if (this.group.name === 'MFG') {
-        params = {order__status: 6, page: this.page, 'page-size': this.pageSize}
-      }
+      // if (this.group.name === 'QC') {
+      //   params = {order__status: 5, page: this.page, 'page-size': this.pageSize}
+      // } else if (this.group.name === 'MFG') {
+      //   params = {order__status: 6, page: this.page, 'page-size': this.pageSize}
+      // }
 
-      if (params) {
-        getRecoverOrders(params)
-          .then((res) => {
-            this.count = res.data.count
-            this.orders = res.data.results
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
+      // if (params) {
+      //   getRecoverOrders(params)
+      //     .then((res) => {
+      //       this.count = res.data.count
+      //       this.orders = res.data.results
+      //     })
+      //     .catch((err) => {
+      //       console.log(err)
+      //     })
+      // }
+      toRecoverAudit()
+        .then((res) => {
+          this.count = res.data.count
+          this.orders = res.data.results
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     handleCurrentChange (val) {
       this.getOrders()

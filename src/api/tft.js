@@ -210,6 +210,16 @@ export const getRecoverOrder = (id) => {
   return axios.get(`${host}/tft/order/recover/${id}/`)
 }
 
+// to audit
+export const toAudit = () => {
+  return axios.get(`${host}/tft/order/query/tu-audit/`)
+}
+
+// to recover audit
+export const toRecoverAudit = () => {
+  return axios.get(`${host}/tft/order/recover/tu-recover-audit/`)
+}
+
 // update order
 // get report handler
 export const getReport = (url) => {
