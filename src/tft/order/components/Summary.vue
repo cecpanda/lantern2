@@ -25,14 +25,19 @@
         <span>全部复机完成: </span>停机单完成全部复机<br><br>
       </el-col>
     </el-row>
+
     <el-row class='chart'>
-      <el-col :xs='24' :sm='24' :md='10' :lg='10' :xl='10'>
-        <v-chart :init-options='initPieOptions' :options='pie'/>
+      <el-col :xs='24' :sm='24' :md='12' :lg='12' :xl='12'>
+        <v-chart :options='pie'/>
       </el-col>
-      <el-col :xs='24' :sm='24' :md='14' :lg='14' :xl='14'>
-        <v-chart :init-options='initBarOptions' :options='bar' :auto-resize='true'/>
-        <br><br><br><br><br><br><br><br><br><br><br><br>
+      <el-col :xs='24' :sm='24' :md='12' :lg='12' :xl='12'>
+        <v-chart :options='line' :auto-resize='true'/>
       </el-col>
+    </el-row>
+    <br><br>
+    <el-row>
+      <v-chart :init-options='initBarOptions' :options='bar' :auto-resize='true'/>
+      <br><br><br><br><br><br><br><br><br><br><br>
     </el-row>
   </div>
 </template>
@@ -56,6 +61,7 @@ export default {
       tableData: [],
       barData: [],
       pieData: [],
+      lineData: [],
       initPieOptions: {
         width: 400,
         height: 400
@@ -129,6 +135,28 @@ export default {
           data: this.pieData
         }]
       }
+    },
+    line () {
+      return {
+        title: {
+          text: '未复机统计'
+        },
+        tooltip: {},
+        toolbox: {
+          feature: {
+            saveAsImage: {},
+            dataView: {},
+            restore: {}
+          }
+        },
+        legend: {
+        },
+        xAxis: {
+          data: this.groups
+        },
+        yAxis: {},
+        series: this.lineData
+      }
     }
   },
   methods: {
@@ -147,6 +175,7 @@ export default {
           this.tableData = res.data.table
           this.barData = res.data.bar
           this.pieData = res.data.pie
+          this.lineData = res.data.line
         })
         .catch((err) => {
           console.log(err)
