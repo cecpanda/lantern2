@@ -13,14 +13,13 @@
       :data="orders"
       style="width: 100%"
       border
+      @row-click='rowClick'
       header-row-class-name='table-header'
-      @row-dblclick='rowdbClick'
     >
       <el-table-column label="编号" min-width='100'>
         <template slot-scope="scope">
           <router-link
             :to="'/tft/order/detail/' + scope.row.order.id"
-            target='_blank'
             class='id-href'
           >
             {{ scope.row.order.id }}
@@ -29,9 +28,9 @@
       </el-table-column>
       <el-table-column prop="order.status" label="状态" min-width='180'></el-table-column>
       <el-table-column prop="id" label="序号" min-width='60'></el-table-column>
-      <el-table-column prop='user.username' label="申请人" min-width='80'></el-table-column>
+      <el-table-column prop='user.realname' label="申请人" min-width='80'></el-table-column>
       <el-table-column prop='created' label="申请时间" :formatter='formatDate' min-width='150'></el-table-column>
-      <el-table-column prop='mod_user.username' label="修改人" min-width='80'></el-table-column>
+      <el-table-column prop='mod_user.realname' label="修改人" min-width='80'></el-table-column>
       <el-table-column prop='modified' label="修改时间" :formatter='formatDate' min-width='150'></el-table-column>
       <el-table-column prop='solution' label="责任单位对策说明" min-width='150' show-overflow-tooltip></el-table-column>
       <el-table-column prop='explain' label="先行 lot 结果说明" min-width='150' show-overflow-tooltip></el-table-column>
@@ -143,8 +142,8 @@ export default {
       let date = new Date(time)
       return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
     },
-    rowdbClick (row, event) {
-      // this.$router.push({path: `/tft/order/detail/${row.id}`})
+    rowClick (row, event, column) {
+      this.$router.push({path: `/tft/order/detail/${row.id}`})
     }
   },
   filters: {

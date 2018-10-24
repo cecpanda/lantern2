@@ -6,13 +6,12 @@
       style="width: 100%"
       border
       header-row-class-name='table-header'
-      @row-dblclick='rowdbClick'
+      @row-click='rowClick'
     >
       <el-table-column label="编号" min-width='100'>
         <template slot-scope="scope">
           <router-link
             :to="'/tft/order/detail/' + scope.row.order.id"
-            target='_blank'
             class='id-href'
           >
             {{ scope.row.order.id }}
@@ -21,8 +20,8 @@
       </el-table-column>
       <el-table-column prop="order.status" label="状态" min-width='180'></el-table-column>
       <el-table-column prop="id" label="序号" min-width='60'></el-table-column>
-      <el-table-column prop='user.username' label="申请人" min-width='80'></el-table-column>
-      <el-table-column prop='mod_user.username' label="修改人" min-width='80'></el-table-column>
+      <el-table-column prop='user.realname' label="申请人" min-width='80'></el-table-column>
+      <el-table-column prop='mod_user.realname' label="修改人" min-width='80'></el-table-column>
       <el-table-column label="部分复机" min-width='100'>
         <template slot-scope="scope">
           <span v-if='scope.row.partial'>是</span>
@@ -113,8 +112,8 @@ export default {
       let date = new Date(time)
       return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
     },
-    rowdbClick (row, event) {
-      // this.$router.push({path: `/tft/order/detail/${row.id}`})
+    rowClick (row, event, column) {
+      this.$router.push({path: `/tft/order/detail/${row.order.id}`})
     }
   },
   filters: {
