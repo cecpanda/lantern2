@@ -59,39 +59,29 @@ export default {
     //   this.$router.push({name: 'Home'})
     // }
 
-    // 用这个思路：只要当前有页面打开，就定期清理 localStorage 里的 lasttime
-    // 已登录状态下打开新标签页，不退出登录
     let current = new Date().getTime()
-    let locallasttime = localStorage.getItem('lasttime')
-    localStorage.removeItem('lasttime')
+    let lasttime = localStorage.getItem('lasttime')
+    let delta = current - lasttime
+    console.log(delta)
 
-    if (locallasttime === null) {
-
-    } else {
-      let delta = current - parseInt(locallasttime)
-      if (isNaN(delta) || delta > 600000) {
-        localStorage.removeItem('token')
-        localStorage.removeItem('username')
-        this.$store.commit('setInfo')
-        this.$router.push({name: 'Home'})
-      }
+    if (delta > 5000 || isNaN(delta)) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      this.$store.commit('setInfo')
+      this.$router.push({name: 'Home'})
     }
 
     let _this = this
     this.timer = setInterval(() => {
       let current = new Date().getTime()
-      if (current - _this.lasttime > 600000) {
+      if (current - _this.lasttime > 5000) {
         localStorage.removeItem('token')
         localStorage.removeItem('username')
         // 记得加上啊，更新全局状态
         this.$store.commit('setInfo')
         this.$router.push({name: 'Home'})
       }
-    }, 300000)
-
-    this.lasttimer = setInterval(() => {
-      localStorage.removeItem('lasttime')
-    }, 10000)
+    }, 1000)
   },
   destroyed () {
     window.removeEventListener('mousemove', this.mousemoveHandler)

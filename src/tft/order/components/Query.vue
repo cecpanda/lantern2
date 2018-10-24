@@ -60,7 +60,7 @@
       style="width: 100%"
       border
       header-row-class-name='table-header'
-      @row-dblclick='rowdbClick'
+      @row-click='rowClick'
       :row-class-name="tableRowClassName"
       @cell-mouse-enter='cellMouseEnter'
       @cell-mouse-leave='cellMouseLeave'
@@ -75,7 +75,6 @@
         <template slot-scope="scope">
           <router-link
             :to="'/tft/order/detail/' + scope.row.id"
-            target='_blank'
             class='id-href'
           >
             {{ scope.row.id }}
@@ -365,9 +364,8 @@ export default {
       let date = new Date(time)
       return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
     },
-    rowdbClick (row, event) {
-      // this.$router.push({path: `/tft/order/detail/${row.id}`})
-      this.visible = true
+    rowClick (row, event) {
+      this.$router.push({path: `/tft/order/detail/${row.id}`})
     },
     tableRowClassName ({row, rowIndex}) {
       if (row.status.code === '0') {
