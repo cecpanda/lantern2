@@ -29,7 +29,8 @@
         <Avatar :user='user'></Avatar>
       </el-col>
     </el-row>
-    <el-pagination
+    <el-row>
+      <el-pagination
         background
         @current-change="handleCurrentChange"
         :current-page.sync="page"
@@ -37,6 +38,7 @@
         layout="total, prev, pager, next, jumper"
         :total="count">
       </el-pagination>
+    </el-row>
   </div>
 </template>
 
