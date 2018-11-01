@@ -7,6 +7,7 @@
       width='80%'
       :before-close="handleClose"
     >
+      <h3 v-if='show'>请耐心等待约 {{ countDown }} 秒......</h3>
       <el-table
         :data='tableData'
         border
@@ -44,14 +45,16 @@ import { drawChart } from '@/api/tft'
 
 export default {
   props: {
-    selectId: {
+    params: {
       required: true,
-      type: Array
+      type: Object
     }
   },
   data () {
     return {
       visible: false,
+      show: true,
+      countDown: 30,
       groups: [],
       tableData: [],
       barData: [],
@@ -128,27 +131,41 @@ export default {
     }
   },
   methods: {
-    getSummary (ids) {
-      drawChart(ids)
+    getSummary (params) {
+      drawChart(params)
         .then((res) => {
           this.groups = res.data.groups
           this.tableData = res.data.table
           this.barData = res.data.bar
           this.pieData = res.data.pie
+          this.show = false
         })
         .catch((err) => {
+          this.show = false
           console.log(err)
         })
     },
     click () {
       this.visible = true
-      this.getSummary(this.selectId)
+      let params = this.params
+      params['fmt'] = 'chart'
+      this.getSummary(params)
+      if (this.show) {
+        this.timer = setInterval(() => {
+          this.countDown -= 1
+        }, 1000)
+      }
     },
     handleClose (done) {
       this.groups = []
       this.tableData = []
       this.barData = []
       this.pieData = []
+      this.show = true
+      this.countDown = 30
+      if (this.timer) {
+        clearInterval(this.timer)
+      }
       done()
     }
   },

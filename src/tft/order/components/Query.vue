@@ -1,36 +1,68 @@
 <template>
-  <div class='table'>
+  <div class='query'>
     <h1>报表查询</h1>
-    <el-row class='search'>
-      <el-col :span='12'>
-        <el-input v-model='search' placeholder="请输入内容" @keyup.enter.native='searching'>
-          <el-select v-model="select" slot="prepend" placeholder="请选择">
-            <el-option-group
-              v-for="group in selectOptions"
-              :key="group.label"
-              :label="group.label"
-            >
-              <el-option
-                v-for='option in group.options'
-                :label="option.label"
-                :value="option.value"
-                :key='option.label'
-              ></el-option>
-            </el-option-group>
-          </el-select>
-          <el-button
-            slot="append"
-            icon="el-icon-search"
-            @click='searching'
-          ></el-button>
-          <el-button
-            slot="append"
-            icon="el-icon-message"
-            @click="openSearchMsg"
-          ></el-button>
+    <el-row class="search">
+      <el-col :span='8'>
+        <el-input
+          placeholder="请输入搜索内容"
+          prefix-icon="el-icon-search"
+          v-model="username">
+          <span slot='prepend'>搜用户名</span>
         </el-input>
-      </el-col>
-      <el-col :span='11' :offset='1'>
+        <br><br>
+        <el-input
+          placeholder="请输入搜索内容"
+          prefix-icon="el-icon-search"
+          v-model="realname">
+          <span slot='prepend'>搜索真名</span>
+        </el-input>
+        <br><br>
+        <span class='search-label'>订单状态</span>
+        <el-select
+          v-model="status"
+          clearable
+          placeholder="请选择订单状态">
+          <el-option
+            v-for="item in statusOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <br><br>
+        <span class='search-label'>开单工程</span>
+        <el-select
+          v-model="group"
+          clearable
+          placeholder="请选择开单工程">
+          <el-option
+            v-for="item in groupOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <br><br>
+        <span class='search-label'>责任工程</span>
+        <el-select
+          v-model="charge_group"
+          clearable
+          placeholder="请选择责任工程">
+          <el-option
+            v-for="item in groupOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <br><br>
+        <el-input
+          placeholder="请输入搜索内容"
+          prefix-icon="el-icon-search"
+          v-model="search">
+          <span slot='prepend'>全局搜索</span>
+        </el-input>
+        <br><br>
         <el-date-picker
           v-model="created"
           type="datetimerange"
@@ -38,22 +70,54 @@
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
-          align="right">
+          align="left">
         </el-date-picker>
+        <el-button icon="el-icon-message" type="primary" @click='handleTips'>说明</el-button>
+        <el-button icon="el-icon-search" type="primary" @click='handleSearch'>搜索</el-button>
+      </el-col>
+      <el-col :span='10' :offset='2' v-if='searchFlag' class='search-content'>
+        <i class="el-icon-info" v-if='params.username'>
+          用户名: {{ params.username }}
+        </i><br>
+        <i class="el-icon-info" v-if='params.realname'>
+          真名: {{ params.realname }}
+        </i><br>
+        <i class="el-icon-info" v-if='params.status'>
+          订单状态: {{ statusOptions[params.status - 1].label }}
+        </i><br>
+        <i class="el-icon-info" v-if='params.group'>
+          开单工程: {{ params.group }} <br>
+        </i><br>
+        <i class="el-icon-info" v-if='params.charge_group'>
+          责任工程: {{ params.charge_group }}
+        </i><br>
+        <i class="el-icon-info" v-if='params.search'>
+          全局搜索: {{ params.search }}
+        </i><br>
+        <i class="el-icon-time">
+          开始时间: {{ params.created_before | formatDate }}
+        </i><br>
+        <i class="el-icon-time">
+          结束时间: {{ params.created_after | formatDate }}
+        </i><br><br>
+        <i class="el-icon-info">
+          数量: {{ count }}
+        </i>
       </el-col>
     </el-row>
-    <el-row
-      v-if='searchFlag && Object.getOwnPropertyNames(this.searchText).length'
-      class='searchConent'
-    >
-      <el-col :span='12' :offset='12'>
-        <i class="el-icon-info"></i> {{ searchText.label }}: {{ searchText.text }} <br>
-        <i class="el-icon-info"></i> 数量: {{ count }} <br>
-        <i class="el-icon-time"></i> 开始时间: {{ this.showCreatedAfter | formatDate }} <br>
-        <i class="el-icon-time"></i> 结束时间: {{ this.showCreatedBefore | formatDate }}
-      </el-col>
+
+    <el-row class='toolbox'>
+      <!-- <el-button type="primary" plain @click="toggleSelection(['toggle'])">全部选择</el-button> -->
+      <!-- <el-button type="primary" plain @click="toggleSelection()">取消选择</el-button> -->
+      <!-- <QueryChart :selectId='selectId'></QueryChart> -->
+      <QueryChart :params='params'></QueryChart>
+      <Exporter title='导出 Excel 2007 ->' :params='params' format='xlsx'></Exporter>
+      <Exporter title='导出 Excel 2003' :params='params' format='xls'></Exporter>
+      <!-- <el-button type="success" @click='exporter("csv")'>导出 csv</el-button> -->
+      <!-- <el-button type="success" @click='exporter("xlsx")'>导出 Excel 2007 -></el-button> -->
+      <!-- <el-button type="success" @click='exporter("xls")'>导出 Excel 2003</el-button> -->
     </el-row>
-    <!-- <el-button @click='exportExcel'>exportExcel</el-button> -->
+
     <el-table
       ref='orderTable'
       :data="orders"
@@ -62,16 +126,11 @@
       header-row-class-name='table-header'
       @row-click='rowClick'
       :row-class-name="tableRowClassName"
-      @cell-mouse-enter='cellMouseEnter'
-      @cell-mouse-leave='cellMouseLeave'
-      @sort-change='sortChange'
-      @filter-change='filterChange'
       tooltip-effect="light"
-      @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="50"></el-table-column>
+      <!-- <el-table-column type="selection" width="50"></el-table-column> -->
       <!-- <el-table-column type="index" width="50"></el-table-column> -->
-      <el-table-column label="编号" min-width='120'>
+      <el-table-column label="编号" min-width='150'>
         <template slot-scope="scope">
           <router-link
             :to="'/tft/order/detail/' + scope.row.id"
@@ -85,49 +144,25 @@
         prop="status.desc"
         label="状态"
         min-width='180'
-        :filters='statusFilters'
-        :filter-method='filterStatus'
       ></el-table-column>
       <el-table-column prop="user.realname" label="开单人" min-width='80'>
         <template slot-scope="scope">
-          <!-- <UserPopover :username='scope.row.user.username' :key='scope.row.user.username'></UserPopover> -->
           {{ scope.row.user.realname }}
         </template>
       </el-table-column>
-      <!-- <el-table-column prop="user.realname" label="真名" min-width='80'></el-table-column>
-      <el-table-column label="开单人" min-width='100'>
-        <template slot-scope="scope">
-          <UserPopover :username='scope.row.user.username'></UserPopover>
-        </template>
-      </el-table-column> -->
       <el-table-column
         prop="group.name"
         label="开单工程"
         min-width='100'
-        :filters='groupFilters'
-        :filter-method='filterGroup'
         column-key='group'
       ></el-table-column>
-      <!-- <el-table-column
-        label="开单工程"
-        min-width='100'
-        :filters='groupFilters'
-        :filter-method='filterGroup'
-        column-key='group'
-      >
-        <template slot-scope="scope">
-          {{ scope.row.group ? scope.row.group.name : ''}}
-        </template>
-      </el-table-column> -->
-      <el-table-column prop="created" label="开单时间" :formatter='formatDate' min-width='150' sortable='custom'></el-table-column>
+      <el-table-column prop="created" label="开单时间" :formatter='formatDate' min-width='150'></el-table-column>
       <el-table-column prop="found_step" label="发现站点" min-width='100' :show-overflow-tooltip='true'></el-table-column>
       <el-table-column prop="found_time" label="发现时间" :formatter='formatDate' min-width='150'></el-table-column>
       <el-table-column
         prop="charge_group.name"
         label="责任工程"
         min-width='100'
-        :filters='chargeGroupFilters'
-        :filter-method='filterChargeGroup'
         column-key='charge_group'
       ></el-table-column>
       <el-table-column prop="eq" label="停机设备" min-width='100' :show-overflow-tooltip='true'></el-table-column>
@@ -146,19 +181,6 @@
       <el-table-column prop="remarks[0].content" label="最新批注" min-width='100'></el-table-column>
     </el-table>
 
-    <el-row class='toolbox'>
-      <el-button type="primary" plain @click="toggleSelection(['toggle'])">全部选择</el-button>
-      <el-button type="primary" plain @click="toggleSelection()">取消选择</el-button>
-      <QueryChart :selectId='selectId'></QueryChart>
-      <el-button type="success" @click='exporter("csv")'>导出 csv</el-button>
-      <el-button type="success" @click='exporter("xlsx")'>导出 Excel 2007 -></el-button>
-      <el-button type="success" @click='exporter("xls")'>导出 Excel 2003</el-button>
-      <p class='button-tip'>
-        注意，换页后之前的选择项失效！ <br>
-        如果 csv 乱码：数据>自文本>导入>utf-8>下一步>逗号
-      </p>
-    </el-row>
-
     <el-pagination
       background
       @current-change="handleCurrentChange"
@@ -168,18 +190,18 @@
       :total="count"
     >
     </el-pagination>
+
     <BackTop></BackTop>
+
   </div>
 </template>
 
 <script>
-import FileSaver from 'file-saver'
-import XLSX from 'xlsx'
 import { formatDate } from '@/common/js/date.js'
 import { getOrders, exporter } from '@/api/tft'
 import BackTop from '@/common/components/BackTop'
-import UserPopover from '@/user/components/UserPopover'
 import QueryChart from './QueryChart'
+import Exporter from './Exporter'
 
 export default {
   name: 'Query',
@@ -189,31 +211,40 @@ export default {
       pageSize: 15,
       count: null,
       orders: [],
-      // 留意 methods 中的 valueToLabel
-      selectOptions: [{
-        label: '模糊匹配',
-        options: [
-          {label: '所有', value: 'all'}
-        ]
-      }, {
-        label: '精确匹配',
-        options: [
-          {label: '工号', value: 'username'},
-          {label: '真名', value: 'realname'},
-          {label: '开单工程', value: 'group'},
-          {label: '责任工程', value: 'charge_group'}
-        ]
-      }],
+
+      created: '',
+      username: '',
+      realname: '',
+      status: '',
+      group: '',
+      charge_group: '',
       search: '',
-      select: 'all',
+
       searchFlag: false,
-      // 上次搜索的内容，直接使用 search 会出现动态效果,如 {label: '', value: '', text: ''}
-      searchText: {},
-      ordering: '',
-      // {group: {'cvd', 'pvd'}, charge_group: {'cvd', 'pvd'}}
-      filters: {},
-      filterFlag: false,
-      // search clock
+      params: {},
+
+      statusOptions: [
+        {label: '（停机）待生产签核', value: '1'},
+        {label: '（停机）待责任工程签核', value: '2'},
+        {label: '（停机）拒签', value: '3'},
+        {label: '（停机）完成', value: '4'},
+        {label: '（复机）待QC签核', value: '5'},
+        {label: '（复机）待生产签核', value: '6'},
+        {label: '（复机）拒签', value: '7'},
+        {label: '（部分复机）完成', value: '8'},
+        {label: '（复机）完成', value: '9'}
+      ],
+      groupOptions: [
+        {label: 'MFG', value: 'MFG'},
+        {label: 'PVD', value: 'PVD'},
+        {label: 'CVD', value: 'CVD'},
+        {label: 'PHO', value: 'PHO'},
+        {label: 'DRY', value: 'DRY'},
+        {label: 'WET', value: 'WET'},
+        {label: 'TEST', value: 'TEST'},
+        {label: 'QC', value: 'QC'}
+      ],
+
       pickerClock: {
         shortcuts: [{
           text: '最近一周',
@@ -241,9 +272,6 @@ export default {
           }
         }]
       },
-      created: '',
-      showCreatedAfter: '',
-      showCreatedBefore: '',
       selectId: []
     }
   },
@@ -253,85 +281,6 @@ export default {
     },
     created_before () {
       return this.created ? this.created[1].toISOString() : undefined
-    },
-    params () {
-      let params = {page: this.page, 'page-size': this.pageSize}
-      if (this.select === 'username') {
-        params.username = this.search
-      } else if (this.select === 'realname') {
-        params.realname = this.search
-      } else if (this.select === 'group') {
-        params.group = this.search
-      } else if (this.select === 'charge_group') {
-        params.charge_group = this.search
-      } else {
-        params.search = this.search
-      }
-      // 从 handleCurrentChange 中转移来的，与上面重复
-      // if (this.searchFlag && Object.getOwnPropertyNames(this.searchText).length) {
-      //   for (let key in this.searchText) {
-      //     if (this.searchText.hasOwnProperty(key)) {
-      //       params[key] = this.searchText[key]
-      //     }
-      //   }
-      // }
-      if (this.ordering) {
-        params.ordering = this.ordering
-      }
-      // 因为 object 的属性不能重复，需重写同一属性对应多个值的过滤 API
-      // if (this.filterFlag && Object.keys(this.filters).length) {
-      //   for (let label in Object.keys(this.filters)) {
-      //     if (this.filters[label].size) {
-      //       this.filters[label].forEach((val) => {
-
-      //       })
-      //     }
-      //   }
-      // }
-      if (this.created_after) {
-        params.created_after = this.created_after
-      }
-      if (this.created_before) {
-        params.created_before = this.created_before
-      }
-      return params
-    },
-    groupFilters () {
-      // 在分页下得到不想要的结果
-      // 只能过滤本页，切换页后，过滤状态保留
-      let filters = []
-      let values = new Set()
-      this.orders.forEach((order) => {
-        if (order.group) {
-          values.add(order.group.name)
-        }
-      })
-      values.forEach((value) => {
-        filters.push({text: value, value: value})
-      })
-      return filters
-    },
-    chargeGroupFilters () {
-      let filters = []
-      let values = new Set()
-      this.orders.forEach((order) => {
-        values.add(order.charge_group.name)
-      })
-      values.forEach((value) => {
-        filters.push({text: value, value: value})
-      })
-      return filters
-    },
-    statusFilters () {
-      let filters = []
-      let values = new Set()
-      this.orders.forEach((order) => {
-        values.add(order.status.desc)
-      })
-      values.forEach((value) => {
-        filters.push({text: value, value: value})
-      })
-      return filters
     }
   },
   methods: {
@@ -345,175 +294,76 @@ export default {
           console.log(error)
         })
     },
-    openSearchMsg () {
+    handleTips () {
       this.$notify({
         title: '检索说明',
         type: 'info',
-        customClass: 'search-msg',
+        customClass: 'search-tips',
         dangerouslyUseHTMLString: true,
-        message: `<li>全部忽略大小写</li>
-                  <li>所有：包括编号、工号、真名、修改人、发现站点、停机设备、停机机种、停机站点、停机原因、通知生产人员、通知生产人员、通知制程人员、异常描述、复机条件</li>
-                  <li>表格头部：当前表格中的当前页的数据</li>
-                  <li>其他: 搜索出的内容不再分页 - 为了表头过滤</li>
+        message: `<li>忽略大小写</li>
+                  <li>全局搜索：包括编号、工号、真名、修改人、发现站点、停机设备、停机机种、停机站点、停机原因、通知生产人员、通知生产人员、通知制程人员、异常描述、复机条件</li>
                   `,
         position: 'top-left',
         offset: 150
       })
     },
-    formatDate (row, column, time, index) {
-      let date = new Date(time)
-      return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+    handleSearch () {
+      // 搜索后，从第一页开始显示
+      this.page = 1
+      let params = {page: this.page, 'page-size': this.pageSize}
+      if (this.username.trim()) {
+        params.username = this.username
+      }
+      if (this.realname.trim()) {
+        params.realname = this.realname
+      }
+      if (this.status) {
+        params.status = this.status
+      }
+      if (this.group) {
+        params.group = this.group
+      }
+      if (this.charge_group) {
+        params.charge_group = this.charge_group
+      }
+      if (this.search.trim()) {
+        params.search = this.search
+      }
+      if (this.created_after) {
+        params.created_after = this.created_after
+      }
+      if (this.created_before) {
+        params.created_before = this.created_before
+      }
+      this.params = params
+      getOrders(this.params)
+        .then((res) => {
+          this.searchFlag = true
+          this.orders = res.data.results
+          this.count = res.data.count
+        })
     },
     rowClick (row, event, column) {
       this.$router.push({path: `/tft/order/detail/${row.id}`})
     },
-    tableRowClassName ({row, rowIndex}) {
-      if (row.status.code === '0') {
-        return 'status0'
-      } else if (row.status.code === '1') {
-        return 'status1'
-      } else if (row.status.code === '2') {
-        return 'status2'
-      } else if (row.status.code === '3') {
-        return 'status3'
-      } else if (row.status.code === '4') {
-        return 'status4'
-      } else if (row.status.code === '5') {
-        return 'status5'
-      } else if (row.status.code === '6') {
-        return 'status6'
-      } else if (row.status.code === '7') {
-        return 'status7'
-      } else if (row.status.code === '8') {
-        return 'status8'
-      } else if (row.status.code === '9') {
-        return 'status9'
-      }
-      return 'status0'
-    },
-    rowStyle ({row, rowIndex}) {
-    },
-    cellMouseEnter (row, column, cell, event) {
-    },
-    cellMouseLeave (row, column, cell, event) {
-    },
-    // 根据 selectOption 中的 value 得到对应的 label，用来渲染
-    valueToLabel (val) {
-      // return 不能终止 forEach 循环,
-      let label = ''
-      this.selectOptions.forEach((selectOption) => {
-        selectOption.options.forEach((option) => {
-          if (option.value === val) {
-            label = option.label
-          }
-        })
-      })
-      return label
-    },
-    searching () {
-      // 搜索后，从第一页开始显示
-      this.page = 1
-      // let params = {page: this.page, 'page-size': this.pageSize}
-      // if (this.select === 'username') {
-      //   params.username = this.search
-      // } else if (this.select === 'realname') {
-      //   params.realname = this.search
-      // } else if (this.select === 'group') {
-      //   params.group = this.search
-      // } else if (this.select === 'charge_group') {
-      //   params.charge_group = this.search
-      // } else {
-      //   params.search = this.search
-      // }
-      getOrders(this.params)
-        .then((res) => {
-          // searchFlag
-          this.searchFlag = true
-          this.searchText = {} // 清空
-          // searchText: {label: '', value: '', text: ''}
-          let label = this.valueToLabel(this.select)
-          this.searchText = {label: label, value: this.select, text: this.search}
-          this.count = res.data.count
-          // this.orders = res.data.results
-          this.showCreatedAfter = this.created_after
-          this.showCreatedBefore = this.created_before
-          this.orders = []
-          this.pageSize = res.data.count
-          getOrders(this.params)
-            .then((res) => {
-              this.orders = res.data.results
-            })
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+    formatDate (row, column, time, index) {
+      let date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
     },
     handleCurrentChange (val) {
-      // let params = {page: this.page, 'page-size': this.pageSize}
-      // if (this.searchFlag && Object.getOwnPropertyNames(this.searchText).length) {
-      //   for (let key in this.searchText) {
-      //     if (this.searchText.hasOwnProperty(key)) {
-      //       params[key] = this.searchText[key]
-      //     }
-      //   }
-      // }
-      // if (this.ordering) {
-      //   params.ordering = this.ordering
-      // }
-      getOrders(this.params)
+      let params
+      if (this.searchFlag) {
+        params = this.params
+        params.page = this.page
+        params['page-size'] = this.pageSize
+      } else {
+        params = {page: this.page, 'page-size': this.pageSize}
+      }
+      getOrders(params)
         .then((res) => {
           this.count = res.data.count
           this.orders = res.data.results
         })
-    },
-    sortChange ({column, prop, order}) {
-      // let params = {page: this.page, 'page-size': this.pageSize}
-      // if (this.searchFlag && Object.getOwnPropertyNames(this.searchText).length) {
-      //   for (let key in this.searchText) {
-      //     if (this.searchText.hasOwnProperty(key)) {
-      //       params[key] = this.searchText[key]
-      //     }
-      //   }
-      // }
-      if (order === 'descending') {
-        prop = '-' + prop
-      }
-      this.ordering = prop
-      // params.ordering = prop
-      getOrders(this.params)
-        .then((res) => {
-          this.count = res.data.count
-          this.orders = res.data.results
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
-    filterGroup (value, row, column) {
-      // console.log('value:', value)
-      // console.log('row:', row)
-      // console.log('column:', column)
-      return row.group.name === value
-    },
-    filterChargeGroup (value, row, column) {
-      return row.charge_group.name === value
-    },
-    filterStatus (value, row, column) {
-      return row.status.desc === value
-    },
-    filterChange (filters) {
-      // console.log('change')
-      // filters = {group: ['cvd', 'pvd']}
-      this.filterFlag = true
-      for (let key of (Object.keys(filters))) {
-        this.filters[key] = new Set()
-        filters[key].forEach((val) => {
-          this.filters[key].add(val)
-        })
-      }
-      // this.filters = {group: {'cvd', 'pvd'}, charge_group: {'cvd', 'pvd'}}
-      // 同一属性对应多个值的过滤 API
-      // console.log(this.filters)
     },
     toggleSelection (rows) {
       if (rows) {
@@ -538,7 +388,9 @@ export default {
       this.selectId = ids
     },
     exporter (format) {
-      exporter({ids: this.selectId, format: format})
+      let params = this.params
+      params['fmt'] = format
+      exporter(params)
         .then((res) => {
           // let blob = new Blob([res.data], {type: 'text/plain;charset=utf-8'})
           // FileSaver.saveAs(blob, 'orders.csv')
@@ -549,25 +401,35 @@ export default {
           console.log(err)
         })
     },
-    exportExcel () {
-      /* generate workbook object from table */
-      var wb = XLSX.utils.table_to_book(document.querySelector('.el-table__body'))
-      /* get binary string as output */
-      var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
-      try {
-        FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'sheetjs.xlsx')
-      } catch (e) {
-        if (typeof console !== 'undefined') {
-          console.log(e, wbout)
-        }
+    tableRowClassName ({row, rowIndex}) {
+      if (row.status.code === '0') {
+        return 'status0'
+      } else if (row.status.code === '1') {
+        return 'status1'
+      } else if (row.status.code === '2') {
+        return 'status2'
+      } else if (row.status.code === '3') {
+        return 'status3'
+      } else if (row.status.code === '4') {
+        return 'status4'
+      } else if (row.status.code === '5') {
+        return 'status5'
+      } else if (row.status.code === '6') {
+        return 'status6'
+      } else if (row.status.code === '7') {
+        return 'status7'
+      } else if (row.status.code === '8') {
+        return 'status8'
+      } else if (row.status.code === '9') {
+        return 'status9'
       }
-      return wbout
+      return 'status0'
     }
   },
   components: {
     BackTop,
-    UserPopover,
-    QueryChart
+    QueryChart,
+    Exporter
   },
   filters: {
     formatDate (time) {
@@ -576,21 +438,23 @@ export default {
     }
   },
   mounted () {
-    this.getOrders(this.params)
+    this.getOrders()
   }
 }
 </script>
 
 <style lang='stylus'>
-@import '~styles/varibles'
 .search
-  margin 20px 0
-  .el-select
-    width 100px
-.search-msg
-  background rgba(255, 255, 255, 0.7)
-.searchConent
-  margin-bottom 20px
+  padding 10px
+  border 1px dashed #000
+  background #C7D4E1
+  .search-label
+    color #8C97A3
+    font-size 15px
+  .el-button
+    margin-top 20px
+.toolbox
+  margin 20px
 .table-header
   th
     font-size 1.1em
@@ -600,6 +464,7 @@ export default {
   text-decoration none
   color #22558B
 .el-table
+  margin 30px 0
   td
     div
       max-height 2.2em
@@ -637,13 +502,9 @@ export default {
 .status8:hover
 .status9:hover
   font-weight bold
+  color #3A8FE7
 .el-checkbox__inner
   border 1px dashed #8B8C8E
-.toolbox
-  margin 10px 0 20px 0
 .el-pagination
   margin 20px 0
-.button-tip
-  font-size 18px
-  text-align right
 </style>

@@ -302,7 +302,10 @@ export const getSummary = (which) => {
 
 // export files as csv or xlsx
 export const exporter = (params) => {
-  return axios.post(`${host}/tft/order/query/export/`, params)
+  return axios.get(`${host}/tft/order/query/export/`, {
+    params: params,
+    timeout: 300000
+  })
 }
 
 // export detail as xlsx
@@ -311,10 +314,10 @@ export const exportDetail = (id) => {
 }
 
 // draw chart
-export const drawChart = (ids) => {
-  return axios.post(`${host}/tft/order/query/export/`, {
-    ids: ids,
-    format: 'chart'
+export const drawChart = (params) => {
+  return axios.get(`${host}/tft/order/query/export/`, {
+    params: params,
+    timeout: 60000
   })
 }
 
