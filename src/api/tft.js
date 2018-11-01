@@ -304,7 +304,7 @@ export const getSummary = (which) => {
 export const exporter = (params) => {
   return axios.get(`${host}/tft/order/query/export/`, {
     params: params,
-    timeout: 300000
+    timeout: 120000
   })
 }
 
@@ -317,7 +317,7 @@ export const exportDetail = (id) => {
 export const drawChart = (params) => {
   return axios.get(`${host}/tft/order/query/export/`, {
     params: params,
-    timeout: 60000
+    timeout: 30000
   })
 }
 
