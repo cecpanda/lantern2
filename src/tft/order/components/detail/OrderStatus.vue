@@ -379,7 +379,7 @@ export default {
       })
       zr.add(b6)
 
-      let l8 = new zrender.Line({
+      let l9 = new zrender.Line({
         draggable: true,
         shape: {
           x1: 250,
@@ -388,15 +388,15 @@ export default {
           y2: 362
         },
         style: {
-          stroke: this.getStroke('l8'),
+          stroke: this.getStroke('l9'),
           text: 'N',
           textPosition: 'inside',
           lineWidth: this.lineWidth
         }
       })
-      zr.add(l8)
+      zr.add(l9)
 
-      let l9 = new zrender.Line({
+      let l8 = new zrender.Line({
         draggable: true,
         shape: {
           x1: 200,
@@ -405,11 +405,11 @@ export default {
           y2: 350
         },
         style: {
-          stroke: this.getStroke('l9'),
+          stroke: this.getStroke('l8'),
           lineWidth: this.lineWidth
         }
       })
-      zr.add(l9)
+      zr.add(l8)
 
       let l10 = new zrender.Line({
         draggable: true,

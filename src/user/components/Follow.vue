@@ -138,7 +138,7 @@ export default {
 }
 </script>
 
-<style lang='stylus' scoped>
+<style lang='stylus'>
 .el-pagination
   margin-top 50px
 </style>

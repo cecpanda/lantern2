@@ -79,7 +79,7 @@ export default {
 
 <style lang='stylus' scoped>
 .avatar
-  margin-top 30px
+  margin 30px
   img
     display block
     width 100%

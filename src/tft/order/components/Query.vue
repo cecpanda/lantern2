@@ -72,7 +72,7 @@
           end-placeholder="结束日期"
           align="left">
         </el-date-picker>
-        <el-button icon="el-icon-message" type="primary" @click='handleTips'>说明</el-button>
+        <el-button icon="el-icon-message" type="info" @click='handleTips'>说明</el-button>
         <el-button icon="el-icon-search" type="primary" @click='handleSearch'>搜索</el-button>
       </el-col>
       <el-col :span='10' :offset='2' v-if='searchFlag' class='search-content'>
@@ -95,10 +95,10 @@
           全局搜索: {{ params.search }}
         </i><br>
         <i class="el-icon-time">
-          开始时间: {{ params.created_before | formatDate }}
+          开始时间: {{ params.created_after | formatDate }}
         </i><br>
         <i class="el-icon-time">
-          结束时间: {{ params.created_after | formatDate }}
+          结束时间: {{ params.created_before | formatDate }}
         </i><br><br>
         <i class="el-icon-info">
           数量: {{ count }}

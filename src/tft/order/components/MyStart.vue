@@ -11,7 +11,7 @@
         header-row-class-name='table-header'
         :row-class-name="tableRowClassName"
       >
-        <el-table-column label="编号" min-width='100'>
+        <el-table-column label="编号" min-width='150'>
           <template slot-scope="scope">
             <router-link
               :to="'/tft/order/detail/' + scope.row.id"

@@ -40,7 +40,7 @@ export default {
   data () {
     return {
       visible: false,
-      countDown: 300,
+      countDown: 100,
       loading: true,
       err: ''
     }
@@ -67,7 +67,7 @@ export default {
     },
     close () {
       this.visible = false
-      this.countDown = 300
+      this.countDown = 100
       if (this.timer) {
         clearInterval(this.timer)
       }
