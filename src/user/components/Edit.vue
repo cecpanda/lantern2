@@ -50,6 +50,7 @@
               :headers='headers'
               name="avatar"
               methods='put'
+              :data='data'
              >
               <img
                 v-if="profile.avatar"
@@ -105,6 +106,9 @@ export default {
     url () {
       // http://10.53.141./account/user/change-profile/
       return config.host + '/account/user/change-profile/'
+    },
+    data () {
+      return {realname: this.profile.realname}
     }
   },
   methods: {
@@ -129,6 +133,7 @@ export default {
     handleAvatarSuccess (res, file) {
       // this.profile.avatar = URL.createObjectURL(file.raw)
       // this.profile.avatar = file
+      console.log(res)
       this.profile.avatar = res.avatar
       this.$message.success('头像修改成功')
     },
