@@ -17,10 +17,24 @@
           <span slot='prepend'>搜索真名</span>
         </el-input>
         <br><br>
+        <!-- <span class='search-label'>订单状态</span>
+        <el-select
+          v-model="status"
+          clearable
+          placeholder="请选择订单状态">
+          <el-option
+            v-for="item in statusOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <br><br> -->
         <span class='search-label'>订单状态</span>
         <el-select
           v-model="status"
           clearable
+          multiple
           placeholder="请选择订单状态">
           <el-option
             v-for="item in statusOptions"
@@ -34,6 +48,7 @@
         <el-select
           v-model="group"
           clearable
+          multiple
           placeholder="请选择开单工程">
           <el-option
             v-for="item in groupOptions"
@@ -47,6 +62,7 @@
         <el-select
           v-model="charge_group"
           clearable
+          multiple
           placeholder="请选择责任工程">
           <el-option
             v-for="item in groupOptions"
@@ -55,6 +71,13 @@
             :value="item.value">
           </el-option>
         </el-select>
+        <br><br>
+        <el-input
+          placeholder="忽略大小写，模糊匹配"
+          prefix-icon="el-icon-search"
+          v-model="eq">
+          <span slot='prepend'>停机设备</span>
+        </el-input>
         <br><br>
         <el-input
           placeholder="请输入搜索内容"
@@ -82,14 +105,17 @@
         <i class="el-icon-info" v-if='params.realname'>
           真名: {{ params.realname }}
         </i><br>
-        <i class="el-icon-info" v-if='params.status'>
-          订单状态: {{ statusOptions[params.status - 1].label }}
+        <i class="el-icon-info" v-for='index of params.status' :key='index'>
+          订单状态: {{ statusOptions[index - 1].label }}
         </i><br>
-        <i class="el-icon-info" v-if='params.group'>
-          开单工程: {{ params.group }} <br>
+        <i class="el-icon-info">
+          开单工程: <span v-for='group of params.group' :key='group'>{{ group }} </span>
         </i><br>
-        <i class="el-icon-info" v-if='params.charge_group'>
-          责任工程: {{ params.charge_group }}
+        <i class="el-icon-info">
+          责任工程: <span v-for='group of params.charge_group' :key='group'>{{ group }} </span>
+        </i><br>
+        <i class="el-icon-info" v-if='params.eq'>
+          停机设备: {{ params.eq }}
         </i><br>
         <i class="el-icon-info" v-if='params.search'>
           全局搜索: {{ params.search }}
@@ -215,9 +241,10 @@ export default {
       created: '',
       username: '',
       realname: '',
-      status: '',
-      group: '',
-      charge_group: '',
+      status: [],
+      group: [],
+      charge_group: [],
+      eq: '',
       search: '',
 
       searchFlag: false,
@@ -320,11 +347,17 @@ export default {
       if (this.status) {
         params.status = this.status
       }
+      if (this.status.length) {
+        params.status = this.status
+      }
       if (this.group) {
         params.group = this.group
       }
       if (this.charge_group) {
         params.charge_group = this.charge_group
+      }
+      if (this.eq) {
+        params.eq = this.eq
       }
       if (this.search.trim()) {
         params.search = this.search
@@ -341,6 +374,11 @@ export default {
           this.searchFlag = true
           this.orders = res.data.results
           this.count = res.data.count
+        })
+        .catch((err) => {
+          console.log(err)
+          this.orders = []
+          this.count = null
         })
     },
     rowClick (row, event, column) {

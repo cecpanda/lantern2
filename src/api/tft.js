@@ -1,5 +1,6 @@
 import axios from './http'
 import conf from './config'
+import Qs from 'qs'
 
 let host = conf.host
 
@@ -189,7 +190,10 @@ export const canUpdate = (id) => {
 // }
 export const getOrders = (params) => {
   return axios.get(`${host}/tft/order/query/`, {
-    params: params
+    params: params,
+    paramsSerializer: function (params) {
+      return Qs.stringify(params, {arrayFormat: 'repeat'})
+    }
   })
 }
 
@@ -304,7 +308,10 @@ export const getSummary = (which) => {
 export const exporter = (params) => {
   return axios.get(`${host}/tft/order/query/export/`, {
     params: params,
-    timeout: 120000
+    timeout: 120000,
+    paramsSerializer: function (params) {
+      return Qs.stringify(params, {arrayFormat: 'repeat'})
+    }
   })
 }
 
@@ -317,7 +324,10 @@ export const exportDetail = (id) => {
 export const drawChart = (params) => {
   return axios.get(`${host}/tft/order/query/export/`, {
     params: params,
-    timeout: 30000
+    timeout: 30000,
+    paramsSerializer: function (params) {
+      return Qs.stringify(params, {arrayFormat: 'repeat'})
+    }
   })
 }
 
