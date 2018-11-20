@@ -241,7 +241,7 @@ export default {
       created: '',
       username: '',
       realname: '',
-      status: [],
+      status: ['1', '2'],
       group: [],
       charge_group: [],
       eq: '',

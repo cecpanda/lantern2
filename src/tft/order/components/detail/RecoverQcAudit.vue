@@ -6,7 +6,7 @@
       <i class="el-icon-star-off"></i>
     </span> -->
     <el-button type="success" size='mini' @click='visible = true'>点击这里</el-button>
-    <el-dialog title="复机审核 - QC" :visible.sync="visible">
+    <el-dialog title="复机审核 - QC" :visible.sync="visible" :append-to-body="true">
       <el-form :model='audit' :rules='rules' ref='form'>
         <el-form-item label="是否拒签" prop='rejected' label-width='20%'>
           <el-radio v-model="audit.rejected" :label="true">是</el-radio>

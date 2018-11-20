@@ -7,7 +7,7 @@
     >
       修改
     </el-button>
-    <el-dialog title="申请复机" :visible.sync="visible" width='68%'>
+    <el-dialog title="申请复机" :visible.sync="visible" width='68%' :append-to-body="true">
       <el-form :model='recoverOrder' :rules='recoverOrderRules' ref='form'>
         <el-form-item label="责任单位对策说明" prop='solution' label-width='15%'>
           <el-input

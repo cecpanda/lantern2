@@ -6,7 +6,7 @@
       <i class="el-icon-star-off"></i>里
     </span> -->
     <el-button type="success" size='mini' @click='visible = true'>点击这里</el-button>
-    <el-dialog title="复机审核 - 生产" :visible.sync="visible">
+    <el-dialog title="复机审核 - 生产" :visible.sync="visible" :append-to-body="true">
       <h3>同意复机</h3>
       <div slot="footer" class="dialog-footer">
         <el-button @click="visible = false">取 消</el-button>
