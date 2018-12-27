@@ -4,14 +4,14 @@
     <el-row class="search">
       <el-col :span='8'>
         <el-input
-          placeholder="请输入搜索内容"
+          placeholder="开单人或修改人的工号"
           prefix-icon="el-icon-search"
           v-model="username">
           <span slot='prepend'>搜用户名</span>
         </el-input>
         <br><br>
         <el-input
-          placeholder="请输入搜索内容"
+          placeholder="开单人或修改人的真名"
           prefix-icon="el-icon-search"
           v-model="realname">
           <span slot='prepend'>搜索真名</span>
@@ -91,8 +91,8 @@
           type="datetimerange"
           :picker-options="pickerClock"
           range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          start-placeholder="开单开始日期"
+          end-placeholder="开单结束日期"
           align="left">
         </el-date-picker>
         <el-button icon="el-icon-message" type="info" @click='handleTips'>说明</el-button>
@@ -241,7 +241,7 @@ export default {
       created: '',
       username: '',
       realname: '',
-      status: ['1', '2'],
+      status: ['1', '2', '4', '5', '6', '7', '8'],
       group: [],
       charge_group: [],
       eq: '',
